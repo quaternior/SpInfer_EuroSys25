@@ -2,8 +2,8 @@
 
 ## 1. Clone this project.
 ```bash
-git clone https://github.com/xxyux/SpInfer.git
-cd SpInfer
+git clone https://github.com/HPMLL/SpInfer_EuroSys25.git
+cd SpInfer_EuroSys25
 git submodule update --init --recursive
 source Init_SpInfer.sh
 cd $SpInfer_HOME/third_party/FasterTransformer && git apply ../ft_spinfer.patch
@@ -60,7 +60,7 @@ Check the results in raw csv files and the reproduced Figure10.png (Fig. 10).
 
 ## 5. Running End-to-end model.
 #### 5.1 Building
-Follow the steps in **[SpInfer/docs/LLMInferenceExample](https://github.com/xxyux/SpInfer/blob/main/docs/LLMInferenceExample.md#llm-inference-example)**
+Follow the steps in **[SpInfer/docs/LLMInferenceExample](https://github.com/HPMLL/SpInfer_EuroSys25/blob/main/docs/LLMInferenceExample.md#llm-inference-example)**
 + Building Faster-Transformer with (SpInfer, Flash-llm or Standard) integration
 + Downloading & Converting OPT models
 + Configuration
