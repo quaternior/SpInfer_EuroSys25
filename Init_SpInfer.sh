@@ -10,5 +10,5 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# set up home path for FlashLLM
+# set up home path for SpInfer
 export SpInfer_HOME=$(pwd)
