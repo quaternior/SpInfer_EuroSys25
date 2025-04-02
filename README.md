@@ -85,3 +85,17 @@ Note: Model_dir is different for SpInfer, Flash-llm and Faster-Transformer.
 > + `pip install -r requirements.txt`
 > + `bash run_ds_loop.sh`
 > + Check the results in `$SpInfer_HOME/end2end_inference/ds_scripts/ds_result/`
+
+---
+
+**If you find this work useful, please cite this project and our [paper](https://dl.acm.org/doi/10.1145/3689031.3717481)**.
+
+  ```tex
+  @inproceedings{fan2025spinfer,
+    title={SpInfer: Leveraging Low-Level Sparsity for Efficient Large Language Model Inference on GPUs},
+    author={Fan, Ruibo and Yu, Xiangrui and Dong, Peijie and Li, Zeyu and Gong, Gu and Wang, Qiang and Wang, Wei and Chu, Xiaowen},
+    booktitle={Proceedings of the Twentieth European Conference on Computer Systems},
+    pages={243--260},
+    year={2025}
+  }
+  ```
