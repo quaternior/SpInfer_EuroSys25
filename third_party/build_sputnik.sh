@@ -31,3 +31,13 @@ make -j12
 #   export SPUTNIK_PATH=$SputnikPath
 #   export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$SPUTNIK_PATH/build/sputnik
 # fi
+
+# (quaternior) If error occurs, execute the below code
+# cd ${SpInfer_HOME}/third_party/glog
+# rm -rf build install
+# mkdir build install && cd build
+
+# cmake .. -DCMAKE_INSTALL_PREFIX=${SpInfer_HOME}/third_party/glog/install
+# make -j$(nproc)
+# make install
+

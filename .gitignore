@@ -1,0 +1,4 @@
+**/*.o
+**/*.so
+third_party/FasterTransformer
+third_party/sputnik
