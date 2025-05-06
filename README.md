@@ -2,7 +2,7 @@
 
 ## 1. Clone this project.
 ```bash
-git clone https://github.com/HPMLL/SpInfer_EuroSys25.git
+git clone https://github.com/quaternior/SpInfer_EuroSys25.git
 cd SpInfer_EuroSys25
 git submodule update --init --recursive
 source Init_SpInfer.sh
