@@ -2,3 +2,5 @@
 **/*.so
 third_party/FasterTransformer
 third_party/sputnik
+third_party/cuparselt
+kernel_benchmark/spmm_test_cusparse

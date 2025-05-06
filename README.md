@@ -1,4 +1,6 @@
 # SpInfer Artifact for EuroSys'25.
+## 0. Fix list
+> + `glog == v0.6.0`
 
 ## 1. Clone this project.
 ```bash
@@ -12,6 +14,7 @@ cd $SpInfer_HOME/third_party/sputnik && git apply ../sputnik.patch
 
 + **Requirements**: 
 > + `Ubuntu 16.04+`
+> + `glog==0.6.0`
 > + `gcc >= 7.3`
 > + `cmake >= 3.30.3`
 > + `CUDA >= 12.2` and `nvcc >= 12.0`
@@ -33,7 +36,7 @@ cd $SpInfer_HOME/build && make -j
 ```
 
 ## 4. Running **SpInfer** in kernel benchmark (Figure 10).
-- Build Sputnik.
+- Build Sputnik. (Must done before install the conda)
 
 ```bash
 cd $SpInfer_HOME/third_party/
@@ -99,3 +102,4 @@ Note: Model_dir is different for SpInfer, Flash-llm and Faster-Transformer.
     year={2025}
   }
   ```
+ 
