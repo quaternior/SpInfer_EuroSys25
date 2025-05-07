@@ -109,7 +109,7 @@ double ComputeTotalError(half* CuBlas, half* Other, int m, int n)
     return totalError;
 }
 
-void PrintMismatch(const char* KernelName,
+void PrintMismatch_deprecated(const char* KernelName,
                    int         MaxNumMismatch,
                    float       ErrorThreshold,
                    half*       CuBlas,
@@ -137,6 +137,48 @@ void PrintMismatch(const char* KernelName,
             break;
     }
 }
+
+void PrintMismatch(const char* KernelName,
+    size_t      MaxNumMismatch,
+    float       RelativeErrorThreshold,
+    half*       CuBlas,
+    half*       Other,
+    size_t      M_Global,
+    size_t      N_Global)
+{
+printf("Mismatches between Cublas and %s (showing up to %zu):\n", KernelName, MaxNumMismatch);
+size_t count            = 0;
+size_t total_mismatches = 0;
+
+// First pass: count mismatches and compute variance
+for (size_t i = 0; i < M_Global; i++) {
+for (size_t j = 0; j < N_Global; j++) {
+float cublas_val = __half2float(CuBlas[i + j * M_Global]);
+float other_val  = __half2float(Other[i + j * M_Global]);
+float abs_cublas = fabs(cublas_val);
+
+if (abs_cublas > 0 && (fabs(cublas_val - other_val) / abs_cublas > RelativeErrorThreshold)) {
+ total_mismatches++;
+
+ // Print only up to MaxNumMismatch examples
+ if (count < MaxNumMismatch) {
+     printf("(%zu,%zu) CuBlas=%f %s=%f, Diff=%f\n",
+            i,
+            j,
+            cublas_val,
+            KernelName,
+            other_val,
+            cublas_val - other_val);
+     count++;
+ }
+}
+}
+}
+
+printf("Total mismatches: %zu\n", total_mismatches);
+}
+
+
 void PrintMismatchV1(const char* KernelName,
                    int         MaxNumMismatch,
                    float       ErrorThreshold,
