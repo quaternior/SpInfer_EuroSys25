@@ -33,9 +33,14 @@ static void SpMM_SplitK_Kernel_Ex_bitmap_v3(cudaStream_t stream,
                                   const int    K_Global,
                                   int          Split_K)
 {
+    // Maximum size of dynamic SMEM = size between B tile double buffer & C shared memory
+    // ? Dynamic shared memory ? : Can be determined with kernel runtime
     // 13b: 2304
     static int SHMEM_SZ = max((TilingConfig::TILE_N * TILE_K) * sizeof(half) * 2 + 2304 * sizeof(half) + (TilingConfig::TILE_BITMAP_M_V3 * TilingConfig::TILE_BITMAP_K_V3) * sizeof(uint64_t),
                               (TilingConfig::TILE_M + PADDING_SHARED_MEM_FOR_C) * TilingConfig::TILE_N * sizeof(float));
+    // ### cudaFuncSetAttribute : change attribute
+    // To change dynamic shared memory with 48KB over generally.
+    // Inside : changes the runtime metadata of the kernel
     cudaFuncSetAttribute(
         SpMM_Kernel_bitmap_v3<TilingConfig>, cudaFuncAttributeMaxDynamicSharedMemorySize, SHMEM_SZ);
     int dimN =
@@ -62,6 +67,7 @@ cudaError_t SpMM_SplitK_API_bitmap_v3(cudaStream_t stream,
                             half*        Reduction_Workspace,  // Identical workspace for all SpMM kernel launchesSpMM_SplitK_Kernel_Ex_bitmap
                             int          Split_K)
 {
+    // ### cudaStream_t : To control Asynchronous task execution(especially for cudaMemcpyAsync)
     half* SpMM_SplitK_OutputPTR;
     if (Split_K == 1)
         SpMM_SplitK_OutputPTR = C;
@@ -70,6 +76,12 @@ cudaError_t SpMM_SplitK_API_bitmap_v3(cudaStream_t stream,
     // Batched SpMM
     switch (N_Global) {
         case 8:
+            // ### template<int BLOCK_ROW_WARPS_, int BLOCK_COL_WARPS_, int WARP_COL_TENSORS_, int N8_ = 0>
+            // struct TilingConfigBitmapV3
+            // - BLOCK_ROW_WARPS_ : Number of warps to handle TILE_M
+            // - BLOCK_COL_WARPS_ : Number of warps to handle TILE_N(always 1)
+            // - WARP_COL_TENSORS_ : ???
+            // - N8_ : only for N_Global=8
             SpMM_SplitK_Kernel_Ex_bitmap_v3<TilingConfigBitmapV3<4, 1, 1, 1>>(
                 stream, A, Compressed_A, TileOffsets, TileOffsets_Median, bitmap, max_nnz_intile, B, SpMM_SplitK_OutputPTR, M_Global, N_Global, K_Global, Split_K);
             break;

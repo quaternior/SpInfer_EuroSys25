@@ -418,12 +418,12 @@ int InitSparseMatrixA_bitmap_v6(
     half* A_h,
     int M,
     int K,
-    int tile_M,  // 8
-    int tile_M_median,  // 16
-    int tile_M_global,  // 64
-    int tile_K,  // 8
-    int tile_K_median,  // 64
-    int tile_K_global,  // 64
+    int tile_M,  // 8, bitmap tile
+    int tile_M_median,  // 16, TCTile
+    int tile_M_global,  // 64, GroupTiile
+    int tile_K,  // 8, bitmap tile
+    int tile_K_median,  // 64, ?
+    int tile_K_global,  // 64, ?r
     half** Compressed_Val,
     int** TileOffsets,
     int** TileOffsets_median,
@@ -459,6 +459,7 @@ int InitSparseMatrixA_bitmap_v6(
     int val_count = 0;
     int tile_idx = 0;
     int median_offset_idx = 0;
+    // vector_name(element_nums, init_value)
     std::vector<int> global_val_counts(num_global_tiles + 1, 0);
     max_nnz_count = 0;
 

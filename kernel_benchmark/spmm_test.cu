@@ -302,27 +302,41 @@ int main(int argc, char** argv)
 // SpInfer
 ////////////////////////////////////////////////////////////////////////////////////////////////
     half* D_SpMM_bitmapv3 = NULL;
+    // ### cudaError_t cudaMalloc(void** devPtr, size_t size);
+    // - devPtr : ptr to point the GPU memory
+    // - size : byte
+    // - return value : 0 or error code, NULL
+    // reinterpret_cast : for type casting without warning
     cudaMalloc(reinterpret_cast<void**>(&D_SpMM_bitmapv3), sizeof(half) * M_GLOBAL * N_GLOBAL);
     if (D_SpMM_bitmapv3 == NULL) {
         printf("Error in spmm_test.cu: line %d cudaMalloc falied\n", __LINE__);
         exit(-1);
     }
+    // ### cudaError_t cudaMemset(void* devPtr, int value, size_t count);
+    // - devPtr : ptr to initialize
+    // - value : initialization value(only one byte, masked by 0xff)
+    // - count : number of bytes to fill
     cudaMemset(D_SpMM_bitmapv3, 0, sizeof(half) * M_GLOBAL * N_GLOBAL);
 
     // Define the output pointer
+    // - value
     half* Compressed_Val_cpu_v3 = nullptr;
+    // - GTileOffset
     int* bitmap_TileOffsets_cpu_v3 = nullptr;
     int* bitmap_TileOffsets_median_cpu_v3 = nullptr;
     int* bitmap_TileOffsets_global_cpu_v3 = nullptr;
+    // - bitmap
     uint64_t* bitmap_cpu_v3 = nullptr;
     int max_nnz_intilev3 = 0;
     // Call the InitSparseMatrixA_bitmap_v6 function
     auto num_gtilesv3 = InitSparseMatrixA_bitmap_v6(A_h, M_GLOBAL, K_GLOBAL, 8, 16, 64, 8, 64, 64, &Compressed_Val_cpu_v3, &bitmap_TileOffsets_cpu_v3, &bitmap_TileOffsets_median_cpu_v3, &bitmap_TileOffsets_global_cpu_v3, &bitmap_cpu_v3, max_nnz_intilev3);
+    // - auto : compiler determines the type
     auto local_tile_numv3 = 8*8;
     auto median_tile_numv3 = 4*1;
     auto num_ltilesv3 = num_gtilesv3*local_tile_numv3;
     auto num_mtilesv3 = num_gtilesv3*median_tile_numv3;
     // The offset of the last tile is equal to the total number of compressed non-zero values
+    // - val_count_median_v3=0 always => condition of spmm_utils.h:521 is always false?
     int val_count_v3 = bitmap_TileOffsets_global_cpu_v3[num_gtilesv3]; 
     int val_count_median_v3 = bitmap_TileOffsets_median_cpu_v3[num_mtilesv3];
     // Adjust max_nnz_intilev3 to a multiple of 64
@@ -346,6 +360,8 @@ int main(int argc, char** argv)
         printf("Error in malloc memory from device memory!\n");
         exit(-1);
     }
+    // ### cudaError_t cudaMemcpy(void* dst, const void* src, size_t count, cudaMemcpyKind kind);
+
     cudaMemcpy(bitmap_TileOffsets_gpu_v3, bitmap_TileOffsets_cpu_v3, sizeof(int) * (num_ltilesv3 + 1), cudaMemcpyHostToDevice);
     cudaMemcpy(bitmap_TileOffsets_global_gpu_v3, bitmap_TileOffsets_global_cpu_v3, sizeof(int) * (num_gtilesv3 + 1), cudaMemcpyHostToDevice);
     cudaMemcpy(bitmap_TileOffsets_median_gpu_v3, bitmap_TileOffsets_median_cpu_v3, sizeof(int) * (num_mtilesv3), cudaMemcpyHostToDevice);
@@ -388,7 +404,7 @@ int main(int argc, char** argv)
                         M_GLOBAL,
                         N_GLOBAL,
                         K_GLOBAL,
-                        Reduction_Workspace_bitmapv3,
+                        Reduction_Workspace_bitmapv3,   //only malloced
                         Split_K);
     cudaEventRecord(start);
     for (int i = 0; i < BENCHMARK_ITERATION; i++)

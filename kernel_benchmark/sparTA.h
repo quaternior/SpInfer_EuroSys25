@@ -117,6 +117,8 @@ int sparTA(half* A_h, half* B_h, half* C_h, int m, int n, int k, float* millisec
     CHECK_CUSPARSE(
         cusparseLtDenseDescriptorInit(&handle, &matC, m, n, n, (unsigned int)16, CUDA_R_16F, CUSPARSE_ORDER_ROW))
     // matmul, algorithm selection, and plan initialization
+    // Error occurs
+    printf("computeType value : %d\n", (int)CUSPARSE_COMPUTE_32F);
     CHECK_CUSPARSE(cusparseLtMatmulDescriptorInit(&handle,
                                                   &matmul,
                                                   CUSPARSE_OPERATION_NON_TRANSPOSE,
@@ -125,8 +127,9 @@ int sparTA(half* A_h, half* B_h, half* C_h, int m, int n, int k, float* millisec
                                                   &matB,
                                                   &matC,
                                                   &matC,
-                                                  CUSPARSE_COMPUTE_16F))
+                                                  CUSPARSE_COMPUTE_32F))
     CHECK_CUSPARSE(cusparseLtMatmulAlgSelectionInit(&handle, &alg_sel, &matmul, CUSPARSELT_MATMUL_ALG_DEFAULT))
+    // (quaternior) Error occurs
     CHECK_CUSPARSE(cusparseLtMatmulPlanInit(&handle, &plan, &matmul, &alg_sel))
     //--------------------------------------------------------------------------
     // Prune the A matrix (in-place) and check the correcteness
