@@ -266,7 +266,7 @@ __global__ void SpMV_Kernel_bitmap_v3(const half*  A,
     CopyTileFromGlobalToShared_Sparse<TilingConfig>(smem, Compressed_A + TileOffsets_ThisBlock[0], NNZ_ThisTile);
     cp_async_group_commit();
 // Load B to shared mem   
-    CopyTileFromGlobalToShared_X_64_N1<TilingConfig::TILE_N2, TilingConfig>(smem_B, BTileGlobalPTR, K_Global);  // Load B into the shared memory
+    CopyTileFromGlobalToReg_X_64_N1<TilingConfig::TILE_N2, TilingConfig>(smem_B, BTileGlobalPTR, K_Global);  // Load B into the shared memory
     cp_async_group_commit();
     
 // Initilazing C Matrix to Zeros.
