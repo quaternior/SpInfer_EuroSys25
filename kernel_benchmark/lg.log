@@ -1,0 +1,520 @@
+/usr/local/cuda/bin/nvcc -ccbin g++ -I/usr/local/cuda/include/  -I/root/pvc/SpInfer_EuroSys25/third_party/sputnik -I/root/pvc/SpInfer_EuroSys25/build -m64 --threads 0 --std=c++14 -maxrregcount=255  --use_fast_math --ptxas-options=-v,-warn-lmem-usage,--warn-on-spills -gencode arch=compute_80,code=sm_80 -gencode arch=compute_86,code=sm_86 -gencode arch=compute_89,code=sm_89 -o spmm_test_spdp.o -c spmm_test_spdp.cu
+/usr/local/cuda/bin/nvcc -ccbin g++ -I/usr/local/cuda/include/  -I/root/pvc/SpInfer_EuroSys25/third_party/sputnik -I/root/pvc/SpInfer_EuroSys25/build -m64 --threads 0 --std=c++14 -maxrregcount=255  --use_fast_math --ptxas-options=-v,-warn-lmem-usage,--warn-on-spills -gencode arch=compute_80,code=sm_80 -gencode arch=compute_86,code=sm_86 -gencode arch=compute_89,code=sm_89 -o spmm_test.o -c spmm_test.cu
+/usr/local/cuda/bin/nvcc -ccbin g++ -I/usr/local/cuda/include/  -I/root/pvc/SpInfer_EuroSys25/third_party/sputnik -I/root/pvc/SpInfer_EuroSys25/build -m64 --threads 0 --std=c++14 -maxrregcount=255  --use_fast_math --ptxas-options=-v,-warn-lmem-usage,--warn-on-spills -gencode arch=compute_80,code=sm_80 -gencode arch=compute_86,code=sm_86 -gencode arch=compute_89,code=sm_89 -o spmm_test_sparta.o -c spmm_test_sparta.cu
+/usr/local/cuda/bin/nvcc -ccbin g++ -I/usr/local/cuda/include/  -I/root/pvc/SpInfer_EuroSys25/third_party/sputnik -I/root/pvc/SpInfer_EuroSys25/build -m64 --threads 0 --std=c++14 -maxrregcount=255  --use_fast_math --ptxas-options=-v,-warn-lmem-usage,--warn-on-spills -gencode arch=compute_80,code=sm_80 -gencode arch=compute_86,code=sm_86 -gencode arch=compute_89,code=sm_89 -o spmm_test_sputnik.o -c spmm_test_sputnik.cu
+/usr/local/cuda/bin/nvcc -ccbin g++ -I/usr/local/cuda/include/  -I/root/pvc/SpInfer_EuroSys25/third_party/sputnik -I/root/pvc/SpInfer_EuroSys25/build -m64 --threads 0 --std=c++14 -maxrregcount=255  --use_fast_math --ptxas-options=-v,-warn-lmem-usage,--warn-on-spills -gencode arch=compute_80,code=sm_80 -gencode arch=compute_86,code=sm_86 -gencode arch=compute_89,code=sm_89 -o spmm_test_cusparse.o -c spmm_test_cusparse.cu
+spmm_test_cusparse.cu(27): warning #117-D: non-void function "main" should return a value
+          return;
+                ^
+
+Remark: The warnings can be suppressed with "-diag-suppress <warning-number>"
+
+spmm_test.cu(30): warning #117-D: non-void function "main" should return a value
+          return;
+                ^
+
+Remark: The warnings can be suppressed with "-diag-suppress <warning-number>"
+
+spmm_test_spdp.cu(30): warning #117-D: non-void function "main" should return a value
+          return;
+                ^
+
+Remark: The warnings can be suppressed with "-diag-suppress <warning-number>"
+
+spmm_test_sputnik.cu(32): warning #117-D: non-void function "main" should return a value
+          return;
+                ^
+
+Remark: The warnings can be suppressed with "-diag-suppress <warning-number>"
+
+spmm_test_sparta.cu(29): warning #117-D: non-void function "main" should return a value
+          return;
+                ^
+
+Remark: The warnings can be suppressed with "-diag-suppress <warning-number>"
+
+spmm_test_cusparse.cu(27): warning #117-D: non-void function "main" should return a value
+          return;
+                ^
+
+Remark: The warnings can be suppressed with "-diag-suppress <warning-number>"
+
+spmm_test_cusparse.cu(27): warning #117-D: non-void function "main" should return a value
+          return;
+                ^
+
+Remark: The warnings can be suppressed with "-diag-suppress <warning-number>"
+
+spmm_test_cusparse.cu(27): warning #117-D: non-void function "main" should return a value
+          return;
+                ^
+
+Remark: The warnings can be suppressed with "-diag-suppress <warning-number>"
+
+ptxas info    : Overriding maximum register limit 256 for '__cuda_dummy_entry__' with  255 of maxrregcount option
+ptxas info    : 0 bytes gmem
+ptxas info    : Overriding maximum register limit 256 for '__cuda_dummy_entry__' with  255 of maxrregcount option
+ptxas info    : 0 bytes gmem
+ptxas info    : Overriding maximum register limit 256 for '__cuda_dummy_entry__' with  255 of maxrregcount option
+ptxas info    : 0 bytes gmem
+spmm_test_sputnik.cu(32): warning #117-D: non-void function "main" should return a value
+          return;
+                ^
+
+Remark: The warnings can be suppressed with "-diag-suppress <warning-number>"
+
+spmm_test_sputnik.cu(32): warning #117-D: non-void function "main" should return a value
+          return;
+                ^
+
+Remark: The warnings can be suppressed with "-diag-suppress <warning-number>"
+
+spmm_test_sparta.cu(29): warning #117-D: non-void function "main" should return a value
+          return;
+                ^
+
+Remark: The warnings can be suppressed with "-diag-suppress <warning-number>"
+
+spmm_test_sputnik.cu(32): warning #117-D: non-void function "main" should return a value
+          return;
+                ^
+
+Remark: The warnings can be suppressed with "-diag-suppress <warning-number>"
+
+spmm_test_sparta.cu(29): warning #117-D: non-void function "main" should return a value
+          return;
+                ^
+
+Remark: The warnings can be suppressed with "-diag-suppress <warning-number>"
+
+spmm_test_sparta.cu(29): warning #117-D: non-void function "main" should return a value
+          return;
+                ^
+
+Remark: The warnings can be suppressed with "-diag-suppress <warning-number>"
+
+ptxas info    : Overriding maximum register limit 256 for '_ZN13sputnik_utils53_GLOBAL__N__2567e0c0_20_spmm_test_sputnik_cu_a1afbde913ConvertKernelEPK6short2Pii' with  255 of maxrregcount option
+ptxas info    : Overriding maximum register limit 256 for '_ZN13sputnik_utils53_GLOBAL__N__2567e0c0_20_spmm_test_sputnik_cu_a1afbde913ConvertKernelEPK7__half2Pfi' with  255 of maxrregcount option
+ptxas info    : Overriding maximum register limit 256 for '_ZN13sputnik_utils53_GLOBAL__N__2567e0c0_20_spmm_test_sputnik_cu_a1afbde913ConvertKernelEPKiP6short2i' with  255 of maxrregcount option
+ptxas info    : Overriding maximum register limit 256 for '_ZN13sputnik_utils53_GLOBAL__N__2567e0c0_20_spmm_test_sputnik_cu_a1afbde913ConvertKernelEPKfP7__half2i' with  255 of maxrregcount option
+ptxas info    : 0 bytes gmem
+ptxas info    : Compiling entry function '_ZN13sputnik_utils53_GLOBAL__N__2567e0c0_20_spmm_test_sputnik_cu_a1afbde913ConvertKernelEPK6short2Pii' for 'sm_80'
+ptxas info    : Function properties for _ZN13sputnik_utils53_GLOBAL__N__2567e0c0_20_spmm_test_sputnik_cu_a1afbde913ConvertKernelEPK6short2Pii
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 10 registers, used 0 barriers, 372 bytes cmem[0]
+ptxas info    : Compile time = 2.351 ms
+ptxas info    : Compiling entry function '_ZN13sputnik_utils53_GLOBAL__N__2567e0c0_20_spmm_test_sputnik_cu_a1afbde913ConvertKernelEPK7__half2Pfi' for 'sm_80'
+ptxas info    : Function properties for _ZN13sputnik_utils53_GLOBAL__N__2567e0c0_20_spmm_test_sputnik_cu_a1afbde913ConvertKernelEPK7__half2Pfi
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 10 registers, used 0 barriers, 372 bytes cmem[0]
+ptxas info    : Compile time = 1.035 ms
+ptxas info    : Compiling entry function '_ZN13sputnik_utils53_GLOBAL__N__2567e0c0_20_spmm_test_sputnik_cu_a1afbde913ConvertKernelEPKiP6short2i' for 'sm_80'
+ptxas info    : Function properties for _ZN13sputnik_utils53_GLOBAL__N__2567e0c0_20_spmm_test_sputnik_cu_a1afbde913ConvertKernelEPKiP6short2i
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 8 registers, used 0 barriers, 372 bytes cmem[0]
+ptxas info    : Compile time = 1.000 ms
+ptxas info    : Compiling entry function '_ZN13sputnik_utils53_GLOBAL__N__2567e0c0_20_spmm_test_sputnik_cu_a1afbde913ConvertKernelEPKfP7__half2i' for 'sm_80'
+ptxas info    : Function properties for _ZN13sputnik_utils53_GLOBAL__N__2567e0c0_20_spmm_test_sputnik_cu_a1afbde913ConvertKernelEPKfP7__half2i
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 10 registers, used 0 barriers, 372 bytes cmem[0]
+ptxas info    : Compile time = 0.938 ms
+ptxas info    : Overriding maximum register limit 256 for '_ZN13sputnik_utils53_GLOBAL__N__2567e0c0_20_spmm_test_sputnik_cu_a1afbde913ConvertKernelEPK6short2Pii' with  255 of maxrregcount option
+ptxas info    : Overriding maximum register limit 256 for '_ZN13sputnik_utils53_GLOBAL__N__2567e0c0_20_spmm_test_sputnik_cu_a1afbde913ConvertKernelEPK7__half2Pfi' with  255 of maxrregcount option
+ptxas info    : Overriding maximum register limit 256 for '_ZN13sputnik_utils53_GLOBAL__N__2567e0c0_20_spmm_test_sputnik_cu_a1afbde913ConvertKernelEPKiP6short2i' with  255 of maxrregcount option
+ptxas info    : Overriding maximum register limit 256 for '_ZN13sputnik_utils53_GLOBAL__N__2567e0c0_20_spmm_test_sputnik_cu_a1afbde913ConvertKernelEPKfP7__half2i' with  255 of maxrregcount option
+ptxas info    : 0 bytes gmem
+ptxas info    : Compiling entry function '_ZN13sputnik_utils53_GLOBAL__N__2567e0c0_20_spmm_test_sputnik_cu_a1afbde913ConvertKernelEPK6short2Pii' for 'sm_89'
+ptxas info    : Function properties for _ZN13sputnik_utils53_GLOBAL__N__2567e0c0_20_spmm_test_sputnik_cu_a1afbde913ConvertKernelEPK6short2Pii
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 10 registers, used 0 barriers, 372 bytes cmem[0]
+ptxas info    : Compile time = 2.044 ms
+ptxas info    : Compiling entry function '_ZN13sputnik_utils53_GLOBAL__N__2567e0c0_20_spmm_test_sputnik_cu_a1afbde913ConvertKernelEPK7__half2Pfi' for 'sm_89'
+ptxas info    : Function properties for _ZN13sputnik_utils53_GLOBAL__N__2567e0c0_20_spmm_test_sputnik_cu_a1afbde913ConvertKernelEPK7__half2Pfi
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 10 registers, used 0 barriers, 372 bytes cmem[0]
+ptxas info    : Compile time = 1.032 ms
+ptxas info    : Compiling entry function '_ZN13sputnik_utils53_GLOBAL__N__2567e0c0_20_spmm_test_sputnik_cu_a1afbde913ConvertKernelEPKiP6short2i' for 'sm_89'
+ptxas info    : Function properties for _ZN13sputnik_utils53_GLOBAL__N__2567e0c0_20_spmm_test_sputnik_cu_a1afbde913ConvertKernelEPKiP6short2i
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 8 registers, used 0 barriers, 372 bytes cmem[0]
+ptxas info    : Compile time = 1.011 ms
+ptxas info    : Compiling entry function '_ZN13sputnik_utils53_GLOBAL__N__2567e0c0_20_spmm_test_sputnik_cu_a1afbde913ConvertKernelEPKfP7__half2i' for 'sm_89'
+ptxas info    : Function properties for _ZN13sputnik_utils53_GLOBAL__N__2567e0c0_20_spmm_test_sputnik_cu_a1afbde913ConvertKernelEPKfP7__half2i
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 10 registers, used 0 barriers, 372 bytes cmem[0]
+ptxas info    : Compile time = 0.938 ms
+ptxas info    : Overriding maximum register limit 256 for '_ZN13sputnik_utils52_GLOBAL__N__6a2627df_19_spmm_test_sparta_cu_a1afbde913ConvertKernelEPK6short2Pii' with  255 of maxrregcount option
+ptxas info    : Overriding maximum register limit 256 for '_ZN13sputnik_utils52_GLOBAL__N__6a2627df_19_spmm_test_sparta_cu_a1afbde913ConvertKernelEPK7__half2Pfi' with  255 of maxrregcount option
+ptxas info    : Overriding maximum register limit 256 for '_ZN13sputnik_utils52_GLOBAL__N__6a2627df_19_spmm_test_sparta_cu_a1afbde913ConvertKernelEPKiP6short2i' with  255 of maxrregcount option
+ptxas info    : Overriding maximum register limit 256 for '_ZN13sputnik_utils52_GLOBAL__N__6a2627df_19_spmm_test_sparta_cu_a1afbde913ConvertKernelEPKfP7__half2i' with  255 of maxrregcount option
+ptxas info    : 0 bytes gmem
+ptxas info    : Compiling entry function '_ZN13sputnik_utils52_GLOBAL__N__6a2627df_19_spmm_test_sparta_cu_a1afbde913ConvertKernelEPK6short2Pii' for 'sm_80'
+ptxas info    : Function properties for _ZN13sputnik_utils52_GLOBAL__N__6a2627df_19_spmm_test_sparta_cu_a1afbde913ConvertKernelEPK6short2Pii
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 10 registers, used 0 barriers, 372 bytes cmem[0]
+ptxas info    : Compile time = 1.981 ms
+ptxas info    : Compiling entry function '_ZN13sputnik_utils52_GLOBAL__N__6a2627df_19_spmm_test_sparta_cu_a1afbde913ConvertKernelEPK7__half2Pfi' for 'sm_80'
+ptxas info    : Function properties for _ZN13sputnik_utils52_GLOBAL__N__6a2627df_19_spmm_test_sparta_cu_a1afbde913ConvertKernelEPK7__half2Pfi
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 10 registers, used 0 barriers, 372 bytes cmem[0]
+ptxas info    : Compile time = 1.028 ms
+ptxas info    : Compiling entry function '_ZN13sputnik_utils52_GLOBAL__N__6a2627df_19_spmm_test_sparta_cu_a1afbde913ConvertKernelEPKiP6short2i' for 'sm_80'
+ptxas info    : Function properties for _ZN13sputnik_utils52_GLOBAL__N__6a2627df_19_spmm_test_sparta_cu_a1afbde913ConvertKernelEPKiP6short2i
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 8 registers, used 0 barriers, 372 bytes cmem[0]
+ptxas info    : Compile time = 1.002 ms
+ptxas info    : Compiling entry function '_ZN13sputnik_utils52_GLOBAL__N__6a2627df_19_spmm_test_sparta_cu_a1afbde913ConvertKernelEPKfP7__half2i' for 'sm_80'
+ptxas info    : Function properties for _ZN13sputnik_utils52_GLOBAL__N__6a2627df_19_spmm_test_sparta_cu_a1afbde913ConvertKernelEPKfP7__half2i
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 10 registers, used 0 barriers, 372 bytes cmem[0]
+ptxas info    : Compile time = 1.051 ms
+ptxas info    : Overriding maximum register limit 256 for '_ZN13sputnik_utils52_GLOBAL__N__6a2627df_19_spmm_test_sparta_cu_a1afbde913ConvertKernelEPK6short2Pii' with  255 of maxrregcount option
+ptxas info    : Overriding maximum register limit 256 for '_ZN13sputnik_utils52_GLOBAL__N__6a2627df_19_spmm_test_sparta_cu_a1afbde913ConvertKernelEPK7__half2Pfi' with  255 of maxrregcount option
+ptxas info    : Overriding maximum register limit 256 for '_ZN13sputnik_utils52_GLOBAL__N__6a2627df_19_spmm_test_sparta_cu_a1afbde913ConvertKernelEPKiP6short2i' with  255 of maxrregcount option
+ptxas info    : Overriding maximum register limit 256 for '_ZN13sputnik_utils52_GLOBAL__N__6a2627df_19_spmm_test_sparta_cu_a1afbde913ConvertKernelEPKfP7__half2i' with  255 of maxrregcount option
+ptxas info    : 0 bytes gmem
+ptxas info    : Compiling entry function '_ZN13sputnik_utils52_GLOBAL__N__6a2627df_19_spmm_test_sparta_cu_a1afbde913ConvertKernelEPK6short2Pii' for 'sm_89'
+ptxas info    : Function properties for _ZN13sputnik_utils52_GLOBAL__N__6a2627df_19_spmm_test_sparta_cu_a1afbde913ConvertKernelEPK6short2Pii
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 10 registers, used 0 barriers, 372 bytes cmem[0]
+ptxas info    : Compile time = 1.928 ms
+ptxas info    : Compiling entry function '_ZN13sputnik_utils52_GLOBAL__N__6a2627df_19_spmm_test_sparta_cu_a1afbde913ConvertKernelEPK7__half2Pfi' for 'sm_89'
+ptxas info    : Function properties for _ZN13sputnik_utils52_GLOBAL__N__6a2627df_19_spmm_test_sparta_cu_a1afbde913ConvertKernelEPK7__half2Pfi
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 10 registers, used 0 barriers, 372 bytes cmem[0]
+ptxas info    : Compile time = 1.049 ms
+ptxas info    : Compiling entry function '_ZN13sputnik_utils52_GLOBAL__N__6a2627df_19_spmm_test_sparta_cu_a1afbde913ConvertKernelEPKiP6short2i' for 'sm_89'
+ptxas info    : Function properties for _ZN13sputnik_utils52_GLOBAL__N__6a2627df_19_spmm_test_sparta_cu_a1afbde913ConvertKernelEPKiP6short2i
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 8 registers, used 0 barriers, 372 bytes cmem[0]
+ptxas info    : Compile time = 1.090 ms
+ptxas info    : Compiling entry function '_ZN13sputnik_utils52_GLOBAL__N__6a2627df_19_spmm_test_sparta_cu_a1afbde913ConvertKernelEPKfP7__half2i' for 'sm_89'
+ptxas info    : Function properties for _ZN13sputnik_utils52_GLOBAL__N__6a2627df_19_spmm_test_sparta_cu_a1afbde913ConvertKernelEPKfP7__half2i
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 10 registers, used 0 barriers, 372 bytes cmem[0]
+ptxas info    : Compile time = 1.029 ms
+ptxas info    : Overriding maximum register limit 256 for '_ZN13sputnik_utils52_GLOBAL__N__6a2627df_19_spmm_test_sparta_cu_a1afbde913ConvertKernelEPK6short2Pii' with  255 of maxrregcount option
+ptxas info    : Overriding maximum register limit 256 for '_ZN13sputnik_utils52_GLOBAL__N__6a2627df_19_spmm_test_sparta_cu_a1afbde913ConvertKernelEPK7__half2Pfi' with  255 of maxrregcount option
+ptxas info    : Overriding maximum register limit 256 for '_ZN13sputnik_utils52_GLOBAL__N__6a2627df_19_spmm_test_sparta_cu_a1afbde913ConvertKernelEPKiP6short2i' with  255 of maxrregcount option
+ptxas info    : Overriding maximum register limit 256 for '_ZN13sputnik_utils52_GLOBAL__N__6a2627df_19_spmm_test_sparta_cu_a1afbde913ConvertKernelEPKfP7__half2i' with  255 of maxrregcount option
+ptxas info    : 0 bytes gmem
+ptxas info    : Compiling entry function '_ZN13sputnik_utils52_GLOBAL__N__6a2627df_19_spmm_test_sparta_cu_a1afbde913ConvertKernelEPK6short2Pii' for 'sm_86'
+ptxas info    : Function properties for _ZN13sputnik_utils52_GLOBAL__N__6a2627df_19_spmm_test_sparta_cu_a1afbde913ConvertKernelEPK6short2Pii
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 10 registers, used 0 barriers, 372 bytes cmem[0]
+ptxas info    : Compile time = 1.484 ms
+ptxas info    : Compiling entry function '_ZN13sputnik_utils52_GLOBAL__N__6a2627df_19_spmm_test_sparta_cu_a1afbde913ConvertKernelEPK7__half2Pfi' for 'sm_86'
+ptxas info    : Function properties for _ZN13sputnik_utils52_GLOBAL__N__6a2627df_19_spmm_test_sparta_cu_a1afbde913ConvertKernelEPK7__half2Pfi
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 10 registers, used 0 barriers, 372 bytes cmem[0]
+ptxas info    : Compile time = 1.026 ms
+ptxas info    : Compiling entry function '_ZN13sputnik_utils52_GLOBAL__N__6a2627df_19_spmm_test_sparta_cu_a1afbde913ConvertKernelEPKiP6short2i' for 'sm_86'
+ptxas info    : Function properties for _ZN13sputnik_utils52_GLOBAL__N__6a2627df_19_spmm_test_sparta_cu_a1afbde913ConvertKernelEPKiP6short2i
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 8 registers, used 0 barriers, 372 bytes cmem[0]
+ptxas info    : Compile time = 1.018 ms
+ptxas info    : Compiling entry function '_ZN13sputnik_utils52_GLOBAL__N__6a2627df_19_spmm_test_sparta_cu_a1afbde913ConvertKernelEPKfP7__half2i' for 'sm_86'
+ptxas info    : Function properties for _ZN13sputnik_utils52_GLOBAL__N__6a2627df_19_spmm_test_sparta_cu_a1afbde913ConvertKernelEPKfP7__half2i
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 10 registers, used 0 barriers, 372 bytes cmem[0]
+ptxas info    : Compile time = 1.024 ms
+ptxas info    : Overriding maximum register limit 256 for '_ZN13sputnik_utils53_GLOBAL__N__2567e0c0_20_spmm_test_sputnik_cu_a1afbde913ConvertKernelEPK6short2Pii' with  255 of maxrregcount option
+ptxas info    : Overriding maximum register limit 256 for '_ZN13sputnik_utils53_GLOBAL__N__2567e0c0_20_spmm_test_sputnik_cu_a1afbde913ConvertKernelEPK7__half2Pfi' with  255 of maxrregcount option
+ptxas info    : Overriding maximum register limit 256 for '_ZN13sputnik_utils53_GLOBAL__N__2567e0c0_20_spmm_test_sputnik_cu_a1afbde913ConvertKernelEPKiP6short2i' with  255 of maxrregcount option
+ptxas info    : Overriding maximum register limit 256 for '_ZN13sputnik_utils53_GLOBAL__N__2567e0c0_20_spmm_test_sputnik_cu_a1afbde913ConvertKernelEPKfP7__half2i' with  255 of maxrregcount option
+ptxas info    : 0 bytes gmem
+ptxas info    : Compiling entry function '_ZN13sputnik_utils53_GLOBAL__N__2567e0c0_20_spmm_test_sputnik_cu_a1afbde913ConvertKernelEPK6short2Pii' for 'sm_86'
+ptxas info    : Function properties for _ZN13sputnik_utils53_GLOBAL__N__2567e0c0_20_spmm_test_sputnik_cu_a1afbde913ConvertKernelEPK6short2Pii
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 10 registers, used 0 barriers, 372 bytes cmem[0]
+ptxas info    : Compile time = 1.944 ms
+ptxas info    : Compiling entry function '_ZN13sputnik_utils53_GLOBAL__N__2567e0c0_20_spmm_test_sputnik_cu_a1afbde913ConvertKernelEPK7__half2Pfi' for 'sm_86'
+ptxas info    : Function properties for _ZN13sputnik_utils53_GLOBAL__N__2567e0c0_20_spmm_test_sputnik_cu_a1afbde913ConvertKernelEPK7__half2Pfi
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 10 registers, used 0 barriers, 372 bytes cmem[0]
+ptxas info    : Compile time = 1.037 ms
+ptxas info    : Compiling entry function '_ZN13sputnik_utils53_GLOBAL__N__2567e0c0_20_spmm_test_sputnik_cu_a1afbde913ConvertKernelEPKiP6short2i' for 'sm_86'
+ptxas info    : Function properties for _ZN13sputnik_utils53_GLOBAL__N__2567e0c0_20_spmm_test_sputnik_cu_a1afbde913ConvertKernelEPKiP6short2i
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 8 registers, used 0 barriers, 372 bytes cmem[0]
+ptxas info    : Compile time = 1.006 ms
+ptxas info    : Compiling entry function '_ZN13sputnik_utils53_GLOBAL__N__2567e0c0_20_spmm_test_sputnik_cu_a1afbde913ConvertKernelEPKfP7__half2i' for 'sm_86'
+ptxas info    : Function properties for _ZN13sputnik_utils53_GLOBAL__N__2567e0c0_20_spmm_test_sputnik_cu_a1afbde913ConvertKernelEPKfP7__half2i
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 10 registers, used 0 barriers, 372 bytes cmem[0]
+ptxas info    : Compile time = 0.940 ms
+/usr/local/cuda/bin/nvcc -ccbin g++ -m64 -gencode arch=compute_80,code=sm_80 -gencode arch=compute_86,code=sm_86 -gencode arch=compute_89,code=sm_89 -o spmm_test_cusparse spmm_test_cusparse.o -lcublas  -lcusparse  -L/root/pvc/SpInfer_EuroSys25/third_party/sputnik/build/sputnik/ -lsputnik -lglog  -L/root/pvc/SpInfer_EuroSys25/build -lSpMM_API -lcusparseLt
+/usr/local/cuda/bin/nvcc -ccbin g++ -m64 -gencode arch=compute_80,code=sm_80 -gencode arch=compute_86,code=sm_86 -gencode arch=compute_89,code=sm_89 -o spmm_test_sparta spmm_test_sparta.o -lcublas  -lcusparse  -L/root/pvc/SpInfer_EuroSys25/third_party/sputnik/build/sputnik/ -lsputnik -lglog  -L/root/pvc/SpInfer_EuroSys25/build -lSpMM_API -lcusparseLt
+/usr/local/cuda/bin/nvcc -ccbin g++ -m64 -gencode arch=compute_80,code=sm_80 -gencode arch=compute_86,code=sm_86 -gencode arch=compute_89,code=sm_89 -o spmm_test_sputnik spmm_test_sputnik.o -lcublas  -lcusparse  -L/root/pvc/SpInfer_EuroSys25/third_party/sputnik/build/sputnik/ -lsputnik -lglog  -L/root/pvc/SpInfer_EuroSys25/build -lSpMM_API -lcusparseLt
+spmm_test.cu(30): warning #117-D: non-void function "main" should return a value
+          return;
+                ^
+
+Remark: The warnings can be suppressed with "-diag-suppress <warning-number>"
+
+spmm_test_spdp.cu(30): warning #117-D: non-void function "main" should return a value
+          return;
+                ^
+
+Remark: The warnings can be suppressed with "-diag-suppress <warning-number>"
+
+spmm_test_spdp.cu(368): warning #177-D: variable "totalError_SpMM2" was declared but never referenced
+      double totalError_SpMM2 = 0.0;
+             ^
+
+spmm_test.cu(30): warning #117-D: non-void function "main" should return a value
+          return;
+                ^
+
+Remark: The warnings can be suppressed with "-diag-suppress <warning-number>"
+
+spmm_test.cu(30): warning #117-D: non-void function "main" should return a value
+          return;
+                ^
+
+Remark: The warnings can be suppressed with "-diag-suppress <warning-number>"
+
+spmm_test_spdp.cu(30): warning #117-D: non-void function "main" should return a value
+          return;
+                ^
+
+Remark: The warnings can be suppressed with "-diag-suppress <warning-number>"
+
+spmm_test_spdp.cu(368): warning #177-D: variable "totalError_SpMM2" was declared but never referenced
+      double totalError_SpMM2 = 0.0;
+             ^
+
+spmm_test_spdp.cu(30): warning #117-D: non-void function "main" should return a value
+          return;
+                ^
+
+Remark: The warnings can be suppressed with "-diag-suppress <warning-number>"
+
+spmm_test_spdp.cu(368): warning #177-D: variable "totalError_SpMM2" was declared but never referenced
+      double totalError_SpMM2 = 0.0;
+             ^
+
+ptxas info    : Overriding maximum register limit 256 for '_ZN15flash_llm_utils11SpMM_KernelINS_12TilingConfigILi2ELi2ELi4ELi0EEENS_18SparseKernelConfigILi64EEEEEvPK6__halfPK5uint4PKiS7_PS5_iiii' with  255 of maxrregcount option
+ptxas info    : Overriding maximum register limit 256 for '_ZN15flash_llm_utils11SpMM_KernelINS_12TilingConfigILi2ELi2ELi2ELi0EEENS_18SparseKernelConfigILi64EEEEEvPK6__halfPK5uint4PKiS7_PS5_iiii' with  255 of maxrregcount option
+ptxas info    : Overriding maximum register limit 256 for '_ZN15flash_llm_utils11SpMM_KernelINS_12TilingConfigILi4ELi1ELi2ELi0EEENS_18SparseKernelConfigILi96EEEEEvPK6__halfPK5uint4PKiS7_PS5_iiii' with  255 of maxrregcount option
+ptxas info    : Overriding maximum register limit 256 for '_ZN15flash_llm_utils11SpMM_KernelINS_12TilingConfigILi4ELi1ELi1ELi0EEENS_18SparseKernelConfigILi96EEEEEvPK6__halfPK5uint4PKiS7_PS5_iiii' with  255 of maxrregcount option
+ptxas info    : Overriding maximum register limit 256 for '_ZN15flash_llm_utils11SpMM_KernelINS_12TilingConfigILi4ELi1ELi1ELi1EEENS_18SparseKernelConfigILi96EEEEEvPK6__halfPK5uint4PKiS7_PS5_iiii' with  255 of maxrregcount option
+ptxas info    : Overriding maximum register limit 256 for '_ZN15flash_llm_utils16SplitK_ReductionEP6__halfS1_iii' with  255 of maxrregcount option
+ptxas info    : 0 bytes gmem
+ptxas info    : Compiling entry function '_ZN15flash_llm_utils11SpMM_KernelINS_12TilingConfigILi2ELi2ELi4ELi0EEENS_18SparseKernelConfigILi64EEEEEvPK6__halfPK5uint4PKiS7_PS5_iiii' for 'sm_86'
+ptxas info    : Function properties for _ZN15flash_llm_utils11SpMM_KernelINS_12TilingConfigILi2ELi2ELi4ELi0EEENS_18SparseKernelConfigILi64EEEEEvPK6__halfPK5uint4PKiS7_PS5_iiii
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 246 registers, used 1 barriers, 408 bytes cmem[0]
+ptxas info    : Compile time = 115.233 ms
+ptxas info    : Compiling entry function '_ZN15flash_llm_utils11SpMM_KernelINS_12TilingConfigILi2ELi2ELi2ELi0EEENS_18SparseKernelConfigILi64EEEEEvPK6__halfPK5uint4PKiS7_PS5_iiii' for 'sm_86'
+ptxas info    : Function properties for _ZN15flash_llm_utils11SpMM_KernelINS_12TilingConfigILi2ELi2ELi2ELi0EEENS_18SparseKernelConfigILi64EEEEEvPK6__halfPK5uint4PKiS7_PS5_iiii
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 202 registers, used 1 barriers, 408 bytes cmem[0]
+ptxas info    : Compile time = 74.432 ms
+ptxas info    : Compiling entry function '_ZN15flash_llm_utils11SpMM_KernelINS_12TilingConfigILi4ELi1ELi2ELi0EEENS_18SparseKernelConfigILi96EEEEEvPK6__halfPK5uint4PKiS7_PS5_iiii' for 'sm_86'
+ptxas info    : Function properties for _ZN15flash_llm_utils11SpMM_KernelINS_12TilingConfigILi4ELi1ELi2ELi0EEENS_18SparseKernelConfigILi96EEEEEvPK6__halfPK5uint4PKiS7_PS5_iiii
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 231 registers, used 1 barriers, 408 bytes cmem[0]
+ptxas info    : Compile time = 132.239 ms
+ptxas info    : Compiling entry function '_ZN15flash_llm_utils11SpMM_KernelINS_12TilingConfigILi4ELi1ELi1ELi0EEENS_18SparseKernelConfigILi96EEEEEvPK6__halfPK5uint4PKiS7_PS5_iiii' for 'sm_86'
+ptxas info    : Function properties for _ZN15flash_llm_utils11SpMM_KernelINS_12TilingConfigILi4ELi1ELi1ELi0EEENS_18SparseKernelConfigILi96EEEEEvPK6__halfPK5uint4PKiS7_PS5_iiii
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 200 registers, used 1 barriers, 408 bytes cmem[0]
+ptxas info    : Compile time = 115.954 ms
+ptxas info    : Compiling entry function '_ZN15flash_llm_utils11SpMM_KernelINS_12TilingConfigILi4ELi1ELi1ELi1EEENS_18SparseKernelConfigILi96EEEEEvPK6__halfPK5uint4PKiS7_PS5_iiii' for 'sm_86'
+ptxas info    : Function properties for _ZN15flash_llm_utils11SpMM_KernelINS_12TilingConfigILi4ELi1ELi1ELi1EEENS_18SparseKernelConfigILi96EEEEEvPK6__halfPK5uint4PKiS7_PS5_iiii
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 186 registers, used 1 barriers, 408 bytes cmem[0]
+ptxas info    : Compile time = 107.724 ms
+ptxas info    : Compiling entry function '_ZN15flash_llm_utils16SplitK_ReductionEP6__halfS1_iii' for 'sm_86'
+ptxas info    : Function properties for _ZN15flash_llm_utils16SplitK_ReductionEP6__halfS1_iii
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 56 registers, used 0 barriers, 380 bytes cmem[0]
+ptxas info    : Compile time = 8.580 ms
+ptxas info    : Overriding maximum register limit 256 for '_ZN15flash_llm_utils11SpMM_KernelINS_12TilingConfigILi2ELi2ELi4ELi0EEENS_18SparseKernelConfigILi64EEEEEvPK6__halfPK5uint4PKiS7_PS5_iiii' with  255 of maxrregcount option
+ptxas info    : Overriding maximum register limit 256 for '_ZN15flash_llm_utils11SpMM_KernelINS_12TilingConfigILi2ELi2ELi2ELi0EEENS_18SparseKernelConfigILi64EEEEEvPK6__halfPK5uint4PKiS7_PS5_iiii' with  255 of maxrregcount option
+ptxas info    : Overriding maximum register limit 256 for '_ZN15flash_llm_utils11SpMM_KernelINS_12TilingConfigILi4ELi1ELi2ELi0EEENS_18SparseKernelConfigILi96EEEEEvPK6__halfPK5uint4PKiS7_PS5_iiii' with  255 of maxrregcount option
+ptxas info    : Overriding maximum register limit 256 for '_ZN15flash_llm_utils11SpMM_KernelINS_12TilingConfigILi4ELi1ELi1ELi0EEENS_18SparseKernelConfigILi96EEEEEvPK6__halfPK5uint4PKiS7_PS5_iiii' with  255 of maxrregcount option
+ptxas info    : Overriding maximum register limit 256 for '_ZN15flash_llm_utils11SpMM_KernelINS_12TilingConfigILi4ELi1ELi1ELi1EEENS_18SparseKernelConfigILi96EEEEEvPK6__halfPK5uint4PKiS7_PS5_iiii' with  255 of maxrregcount option
+ptxas info    : Overriding maximum register limit 256 for '_ZN15flash_llm_utils16SplitK_ReductionEP6__halfS1_iii' with  255 of maxrregcount option
+ptxas info    : 0 bytes gmem
+ptxas info    : Compiling entry function '_ZN15flash_llm_utils11SpMM_KernelINS_12TilingConfigILi2ELi2ELi4ELi0EEENS_18SparseKernelConfigILi64EEEEEvPK6__halfPK5uint4PKiS7_PS5_iiii' for 'sm_80'
+ptxas info    : Function properties for _ZN15flash_llm_utils11SpMM_KernelINS_12TilingConfigILi2ELi2ELi4ELi0EEENS_18SparseKernelConfigILi64EEEEEvPK6__halfPK5uint4PKiS7_PS5_iiii
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 254 registers, used 1 barriers, 408 bytes cmem[0]
+ptxas info    : Compile time = 114.508 ms
+ptxas info    : Compiling entry function '_ZN15flash_llm_utils11SpMM_KernelINS_12TilingConfigILi2ELi2ELi2ELi0EEENS_18SparseKernelConfigILi64EEEEEvPK6__halfPK5uint4PKiS7_PS5_iiii' for 'sm_80'
+ptxas info    : Function properties for _ZN15flash_llm_utils11SpMM_KernelINS_12TilingConfigILi2ELi2ELi2ELi0EEENS_18SparseKernelConfigILi64EEEEEvPK6__halfPK5uint4PKiS7_PS5_iiii
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 202 registers, used 1 barriers, 408 bytes cmem[0]
+ptxas info    : Compile time = 73.295 ms
+ptxas info    : Compiling entry function '_ZN15flash_llm_utils11SpMM_KernelINS_12TilingConfigILi4ELi1ELi2ELi0EEENS_18SparseKernelConfigILi96EEEEEvPK6__halfPK5uint4PKiS7_PS5_iiii' for 'sm_80'
+ptxas info    : Function properties for _ZN15flash_llm_utils11SpMM_KernelINS_12TilingConfigILi4ELi1ELi2ELi0EEENS_18SparseKernelConfigILi96EEEEEvPK6__halfPK5uint4PKiS7_PS5_iiii
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 231 registers, used 1 barriers, 408 bytes cmem[0]
+ptxas info    : Compile time = 130.065 ms
+ptxas info    : Compiling entry function '_ZN15flash_llm_utils11SpMM_KernelINS_12TilingConfigILi4ELi1ELi1ELi0EEENS_18SparseKernelConfigILi96EEEEEvPK6__halfPK5uint4PKiS7_PS5_iiii' for 'sm_80'
+ptxas info    : Function properties for _ZN15flash_llm_utils11SpMM_KernelINS_12TilingConfigILi4ELi1ELi1ELi0EEENS_18SparseKernelConfigILi96EEEEEvPK6__halfPK5uint4PKiS7_PS5_iiii
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 200 registers, used 1 barriers, 408 bytes cmem[0]
+ptxas info    : Compile time = 113.129 ms
+ptxas info    : Compiling entry function '_ZN15flash_llm_utils11SpMM_KernelINS_12TilingConfigILi4ELi1ELi1ELi1EEENS_18SparseKernelConfigILi96EEEEEvPK6__halfPK5uint4PKiS7_PS5_iiii' for 'sm_80'
+ptxas info    : Function properties for _ZN15flash_llm_utils11SpMM_KernelINS_12TilingConfigILi4ELi1ELi1ELi1EEENS_18SparseKernelConfigILi96EEEEEvPK6__halfPK5uint4PKiS7_PS5_iiii
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 186 registers, used 1 barriers, 408 bytes cmem[0]
+ptxas info    : Compile time = 105.563 ms
+ptxas info    : Compiling entry function '_ZN15flash_llm_utils16SplitK_ReductionEP6__halfS1_iii' for 'sm_80'
+ptxas info    : Function properties for _ZN15flash_llm_utils16SplitK_ReductionEP6__halfS1_iii
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 56 registers, used 0 barriers, 380 bytes cmem[0]
+ptxas info    : Compile time = 8.405 ms
+ptxas info    : Overriding maximum register limit 256 for '_ZN15flash_llm_utils11SpMM_KernelINS_12TilingConfigILi2ELi2ELi4ELi0EEENS_18SparseKernelConfigILi64EEEEEvPK6__halfPK5uint4PKiS7_PS5_iiii' with  255 of maxrregcount option
+ptxas info    : Overriding maximum register limit 256 for '_ZN15flash_llm_utils11SpMM_KernelINS_12TilingConfigILi2ELi2ELi2ELi0EEENS_18SparseKernelConfigILi64EEEEEvPK6__halfPK5uint4PKiS7_PS5_iiii' with  255 of maxrregcount option
+ptxas info    : Overriding maximum register limit 256 for '_ZN15flash_llm_utils11SpMM_KernelINS_12TilingConfigILi4ELi1ELi2ELi0EEENS_18SparseKernelConfigILi96EEEEEvPK6__halfPK5uint4PKiS7_PS5_iiii' with  255 of maxrregcount option
+ptxas info    : Overriding maximum register limit 256 for '_ZN15flash_llm_utils11SpMM_KernelINS_12TilingConfigILi4ELi1ELi1ELi0EEENS_18SparseKernelConfigILi96EEEEEvPK6__halfPK5uint4PKiS7_PS5_iiii' with  255 of maxrregcount option
+ptxas info    : Overriding maximum register limit 256 for '_ZN15flash_llm_utils11SpMM_KernelINS_12TilingConfigILi4ELi1ELi1ELi1EEENS_18SparseKernelConfigILi96EEEEEvPK6__halfPK5uint4PKiS7_PS5_iiii' with  255 of maxrregcount option
+ptxas info    : Overriding maximum register limit 256 for '_ZN15flash_llm_utils16SplitK_ReductionEP6__halfS1_iii' with  255 of maxrregcount option
+ptxas info    : 0 bytes gmem
+ptxas info    : Compiling entry function '_ZN15flash_llm_utils11SpMM_KernelINS_12TilingConfigILi2ELi2ELi4ELi0EEENS_18SparseKernelConfigILi64EEEEEvPK6__halfPK5uint4PKiS7_PS5_iiii' for 'sm_86'
+ptxas info    : Function properties for _ZN15flash_llm_utils11SpMM_KernelINS_12TilingConfigILi2ELi2ELi4ELi0EEENS_18SparseKernelConfigILi64EEEEEvPK6__halfPK5uint4PKiS7_PS5_iiii
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 246 registers, used 1 barriers, 408 bytes cmem[0]
+ptxas info    : Compile time = 114.937 ms
+ptxas info    : Compiling entry function '_ZN15flash_llm_utils11SpMM_KernelINS_12TilingConfigILi2ELi2ELi2ELi0EEENS_18SparseKernelConfigILi64EEEEEvPK6__halfPK5uint4PKiS7_PS5_iiii' for 'sm_86'
+ptxas info    : Function properties for _ZN15flash_llm_utils11SpMM_KernelINS_12TilingConfigILi2ELi2ELi2ELi0EEENS_18SparseKernelConfigILi64EEEEEvPK6__halfPK5uint4PKiS7_PS5_iiii
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 202 registers, used 1 barriers, 408 bytes cmem[0]
+ptxas info    : Compile time = 74.417 ms
+ptxas info    : Compiling entry function '_ZN15flash_llm_utils11SpMM_KernelINS_12TilingConfigILi4ELi1ELi2ELi0EEENS_18SparseKernelConfigILi96EEEEEvPK6__halfPK5uint4PKiS7_PS5_iiii' for 'sm_86'
+ptxas info    : Function properties for _ZN15flash_llm_utils11SpMM_KernelINS_12TilingConfigILi4ELi1ELi2ELi0EEENS_18SparseKernelConfigILi96EEEEEvPK6__halfPK5uint4PKiS7_PS5_iiii
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 231 registers, used 1 barriers, 408 bytes cmem[0]
+ptxas info    : Compile time = 131.803 ms
+ptxas info    : Compiling entry function '_ZN15flash_llm_utils11SpMM_KernelINS_12TilingConfigILi4ELi1ELi1ELi0EEENS_18SparseKernelConfigILi96EEEEEvPK6__halfPK5uint4PKiS7_PS5_iiii' for 'sm_86'
+ptxas info    : Function properties for _ZN15flash_llm_utils11SpMM_KernelINS_12TilingConfigILi4ELi1ELi1ELi0EEENS_18SparseKernelConfigILi96EEEEEvPK6__halfPK5uint4PKiS7_PS5_iiii
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 200 registers, used 1 barriers, 408 bytes cmem[0]
+ptxas info    : Compile time = 115.637 ms
+ptxas info    : Compiling entry function '_ZN15flash_llm_utils11SpMM_KernelINS_12TilingConfigILi4ELi1ELi1ELi1EEENS_18SparseKernelConfigILi96EEEEEvPK6__halfPK5uint4PKiS7_PS5_iiii' for 'sm_86'
+ptxas info    : Function properties for _ZN15flash_llm_utils11SpMM_KernelINS_12TilingConfigILi4ELi1ELi1ELi1EEENS_18SparseKernelConfigILi96EEEEEvPK6__halfPK5uint4PKiS7_PS5_iiii
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 186 registers, used 1 barriers, 408 bytes cmem[0]
+ptxas info    : Compile time = 107.147 ms
+ptxas info    : Compiling entry function '_ZN15flash_llm_utils16SplitK_ReductionEP6__halfS1_iii' for 'sm_86'
+ptxas info    : Function properties for _ZN15flash_llm_utils16SplitK_ReductionEP6__halfS1_iii
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 56 registers, used 0 barriers, 380 bytes cmem[0]
+ptxas info    : Compile time = 8.448 ms
+ptxas info    : Overriding maximum register limit 256 for '_ZN15flash_llm_utils11SpMM_KernelINS_12TilingConfigILi2ELi2ELi4ELi0EEENS_18SparseKernelConfigILi64EEEEEvPK6__halfPK5uint4PKiS7_PS5_iiii' with  255 of maxrregcount option
+ptxas info    : Overriding maximum register limit 256 for '_ZN15flash_llm_utils11SpMM_KernelINS_12TilingConfigILi2ELi2ELi2ELi0EEENS_18SparseKernelConfigILi64EEEEEvPK6__halfPK5uint4PKiS7_PS5_iiii' with  255 of maxrregcount option
+ptxas info    : Overriding maximum register limit 256 for '_ZN15flash_llm_utils11SpMM_KernelINS_12TilingConfigILi4ELi1ELi2ELi0EEENS_18SparseKernelConfigILi96EEEEEvPK6__halfPK5uint4PKiS7_PS5_iiii' with  255 of maxrregcount option
+ptxas info    : Overriding maximum register limit 256 for '_ZN15flash_llm_utils11SpMM_KernelINS_12TilingConfigILi4ELi1ELi1ELi0EEENS_18SparseKernelConfigILi96EEEEEvPK6__halfPK5uint4PKiS7_PS5_iiii' with  255 of maxrregcount option
+ptxas info    : Overriding maximum register limit 256 for '_ZN15flash_llm_utils11SpMM_KernelINS_12TilingConfigILi4ELi1ELi1ELi1EEENS_18SparseKernelConfigILi96EEEEEvPK6__halfPK5uint4PKiS7_PS5_iiii' with  255 of maxrregcount option
+ptxas info    : Overriding maximum register limit 256 for '_ZN15flash_llm_utils16SplitK_ReductionEP6__halfS1_iii' with  255 of maxrregcount option
+ptxas info    : 0 bytes gmem
+ptxas info    : Compiling entry function '_ZN15flash_llm_utils11SpMM_KernelINS_12TilingConfigILi2ELi2ELi4ELi0EEENS_18SparseKernelConfigILi64EEEEEvPK6__halfPK5uint4PKiS7_PS5_iiii' for 'sm_89'
+ptxas info    : Function properties for _ZN15flash_llm_utils11SpMM_KernelINS_12TilingConfigILi2ELi2ELi4ELi0EEENS_18SparseKernelConfigILi64EEEEEvPK6__halfPK5uint4PKiS7_PS5_iiii
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 246 registers, used 1 barriers, 408 bytes cmem[0]
+ptxas info    : Compile time = 115.829 ms
+ptxas info    : Compiling entry function '_ZN15flash_llm_utils11SpMM_KernelINS_12TilingConfigILi2ELi2ELi2ELi0EEENS_18SparseKernelConfigILi64EEEEEvPK6__halfPK5uint4PKiS7_PS5_iiii' for 'sm_89'
+ptxas info    : Function properties for _ZN15flash_llm_utils11SpMM_KernelINS_12TilingConfigILi2ELi2ELi2ELi0EEENS_18SparseKernelConfigILi64EEEEEvPK6__halfPK5uint4PKiS7_PS5_iiii
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 202 registers, used 1 barriers, 408 bytes cmem[0]
+ptxas info    : Compile time = 74.184 ms
+ptxas info    : Compiling entry function '_ZN15flash_llm_utils11SpMM_KernelINS_12TilingConfigILi4ELi1ELi2ELi0EEENS_18SparseKernelConfigILi96EEEEEvPK6__halfPK5uint4PKiS7_PS5_iiii' for 'sm_89'
+ptxas info    : Function properties for _ZN15flash_llm_utils11SpMM_KernelINS_12TilingConfigILi4ELi1ELi2ELi0EEENS_18SparseKernelConfigILi96EEEEEvPK6__halfPK5uint4PKiS7_PS5_iiii
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 231 registers, used 1 barriers, 408 bytes cmem[0]
+ptxas info    : Compile time = 132.195 ms
+ptxas info    : Compiling entry function '_ZN15flash_llm_utils11SpMM_KernelINS_12TilingConfigILi4ELi1ELi1ELi0EEENS_18SparseKernelConfigILi96EEEEEvPK6__halfPK5uint4PKiS7_PS5_iiii' for 'sm_89'
+ptxas info    : Function properties for _ZN15flash_llm_utils11SpMM_KernelINS_12TilingConfigILi4ELi1ELi1ELi0EEENS_18SparseKernelConfigILi96EEEEEvPK6__halfPK5uint4PKiS7_PS5_iiii
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 200 registers, used 1 barriers, 408 bytes cmem[0]
+ptxas info    : Compile time = 115.396 ms
+ptxas info    : Compiling entry function '_ZN15flash_llm_utils11SpMM_KernelINS_12TilingConfigILi4ELi1ELi1ELi1EEENS_18SparseKernelConfigILi96EEEEEvPK6__halfPK5uint4PKiS7_PS5_iiii' for 'sm_89'
+ptxas info    : Function properties for _ZN15flash_llm_utils11SpMM_KernelINS_12TilingConfigILi4ELi1ELi1ELi1EEENS_18SparseKernelConfigILi96EEEEEvPK6__halfPK5uint4PKiS7_PS5_iiii
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 186 registers, used 1 barriers, 408 bytes cmem[0]
+ptxas info    : Compile time = 106.821 ms
+ptxas info    : Compiling entry function '_ZN15flash_llm_utils16SplitK_ReductionEP6__halfS1_iii' for 'sm_89'
+ptxas info    : Function properties for _ZN15flash_llm_utils16SplitK_ReductionEP6__halfS1_iii
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 56 registers, used 0 barriers, 380 bytes cmem[0]
+ptxas info    : Compile time = 8.442 ms
+ptxas info    : Overriding maximum register limit 256 for '_ZN15flash_llm_utils11SpMM_KernelINS_12TilingConfigILi2ELi2ELi4ELi0EEENS_18SparseKernelConfigILi64EEEEEvPK6__halfPK5uint4PKiS7_PS5_iiii' with  255 of maxrregcount option
+ptxas info    : Overriding maximum register limit 256 for '_ZN15flash_llm_utils11SpMM_KernelINS_12TilingConfigILi2ELi2ELi2ELi0EEENS_18SparseKernelConfigILi64EEEEEvPK6__halfPK5uint4PKiS7_PS5_iiii' with  255 of maxrregcount option
+ptxas info    : Overriding maximum register limit 256 for '_ZN15flash_llm_utils11SpMM_KernelINS_12TilingConfigILi4ELi1ELi2ELi0EEENS_18SparseKernelConfigILi96EEEEEvPK6__halfPK5uint4PKiS7_PS5_iiii' with  255 of maxrregcount option
+ptxas info    : Overriding maximum register limit 256 for '_ZN15flash_llm_utils11SpMM_KernelINS_12TilingConfigILi4ELi1ELi1ELi0EEENS_18SparseKernelConfigILi96EEEEEvPK6__halfPK5uint4PKiS7_PS5_iiii' with  255 of maxrregcount option
+ptxas info    : Overriding maximum register limit 256 for '_ZN15flash_llm_utils11SpMM_KernelINS_12TilingConfigILi4ELi1ELi1ELi1EEENS_18SparseKernelConfigILi96EEEEEvPK6__halfPK5uint4PKiS7_PS5_iiii' with  255 of maxrregcount option
+ptxas info    : Overriding maximum register limit 256 for '_ZN15flash_llm_utils16SplitK_ReductionEP6__halfS1_iii' with  255 of maxrregcount option
+ptxas info    : 0 bytes gmem
+ptxas info    : Compiling entry function '_ZN15flash_llm_utils11SpMM_KernelINS_12TilingConfigILi2ELi2ELi4ELi0EEENS_18SparseKernelConfigILi64EEEEEvPK6__halfPK5uint4PKiS7_PS5_iiii' for 'sm_89'
+ptxas info    : Function properties for _ZN15flash_llm_utils11SpMM_KernelINS_12TilingConfigILi2ELi2ELi4ELi0EEENS_18SparseKernelConfigILi64EEEEEvPK6__halfPK5uint4PKiS7_PS5_iiii
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 246 registers, used 1 barriers, 408 bytes cmem[0]
+ptxas info    : Compile time = 115.355 ms
+ptxas info    : Compiling entry function '_ZN15flash_llm_utils11SpMM_KernelINS_12TilingConfigILi2ELi2ELi2ELi0EEENS_18SparseKernelConfigILi64EEEEEvPK6__halfPK5uint4PKiS7_PS5_iiii' for 'sm_89'
+ptxas info    : Function properties for _ZN15flash_llm_utils11SpMM_KernelINS_12TilingConfigILi2ELi2ELi2ELi0EEENS_18SparseKernelConfigILi64EEEEEvPK6__halfPK5uint4PKiS7_PS5_iiii
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 202 registers, used 1 barriers, 408 bytes cmem[0]
+ptxas info    : Compile time = 74.866 ms
+ptxas info    : Compiling entry function '_ZN15flash_llm_utils11SpMM_KernelINS_12TilingConfigILi4ELi1ELi2ELi0EEENS_18SparseKernelConfigILi96EEEEEvPK6__halfPK5uint4PKiS7_PS5_iiii' for 'sm_89'
+ptxas info    : Function properties for _ZN15flash_llm_utils11SpMM_KernelINS_12TilingConfigILi4ELi1ELi2ELi0EEENS_18SparseKernelConfigILi96EEEEEvPK6__halfPK5uint4PKiS7_PS5_iiii
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 231 registers, used 1 barriers, 408 bytes cmem[0]
+ptxas info    : Compile time = 131.872 ms
+ptxas info    : Compiling entry function '_ZN15flash_llm_utils11SpMM_KernelINS_12TilingConfigILi4ELi1ELi1ELi0EEENS_18SparseKernelConfigILi96EEEEEvPK6__halfPK5uint4PKiS7_PS5_iiii' for 'sm_89'
+ptxas info    : Function properties for _ZN15flash_llm_utils11SpMM_KernelINS_12TilingConfigILi4ELi1ELi1ELi0EEENS_18SparseKernelConfigILi96EEEEEvPK6__halfPK5uint4PKiS7_PS5_iiii
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 200 registers, used 1 barriers, 408 bytes cmem[0]
+ptxas info    : Compile time = 115.118 ms
+ptxas info    : Compiling entry function '_ZN15flash_llm_utils11SpMM_KernelINS_12TilingConfigILi4ELi1ELi1ELi1EEENS_18SparseKernelConfigILi96EEEEEvPK6__halfPK5uint4PKiS7_PS5_iiii' for 'sm_89'
+ptxas info    : Function properties for _ZN15flash_llm_utils11SpMM_KernelINS_12TilingConfigILi4ELi1ELi1ELi1EEENS_18SparseKernelConfigILi96EEEEEvPK6__halfPK5uint4PKiS7_PS5_iiii
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 186 registers, used 1 barriers, 408 bytes cmem[0]
+ptxas info    : Compile time = 107.314 ms
+ptxas info    : Compiling entry function '_ZN15flash_llm_utils16SplitK_ReductionEP6__halfS1_iii' for 'sm_89'
+ptxas info    : Function properties for _ZN15flash_llm_utils16SplitK_ReductionEP6__halfS1_iii
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 56 registers, used 0 barriers, 380 bytes cmem[0]
+ptxas info    : Compile time = 8.558 ms
+ptxas info    : Overriding maximum register limit 256 for '_ZN15flash_llm_utils11SpMM_KernelINS_12TilingConfigILi2ELi2ELi4ELi0EEENS_18SparseKernelConfigILi64EEEEEvPK6__halfPK5uint4PKiS7_PS5_iiii' with  255 of maxrregcount option
+ptxas info    : Overriding maximum register limit 256 for '_ZN15flash_llm_utils11SpMM_KernelINS_12TilingConfigILi2ELi2ELi2ELi0EEENS_18SparseKernelConfigILi64EEEEEvPK6__halfPK5uint4PKiS7_PS5_iiii' with  255 of maxrregcount option
+ptxas info    : Overriding maximum register limit 256 for '_ZN15flash_llm_utils11SpMM_KernelINS_12TilingConfigILi4ELi1ELi2ELi0EEENS_18SparseKernelConfigILi96EEEEEvPK6__halfPK5uint4PKiS7_PS5_iiii' with  255 of maxrregcount option
+ptxas info    : Overriding maximum register limit 256 for '_ZN15flash_llm_utils11SpMM_KernelINS_12TilingConfigILi4ELi1ELi1ELi0EEENS_18SparseKernelConfigILi96EEEEEvPK6__halfPK5uint4PKiS7_PS5_iiii' with  255 of maxrregcount option
+ptxas info    : Overriding maximum register limit 256 for '_ZN15flash_llm_utils11SpMM_KernelINS_12TilingConfigILi4ELi1ELi1ELi1EEENS_18SparseKernelConfigILi96EEEEEvPK6__halfPK5uint4PKiS7_PS5_iiii' with  255 of maxrregcount option
+ptxas info    : Overriding maximum register limit 256 for '_ZN15flash_llm_utils16SplitK_ReductionEP6__halfS1_iii' with  255 of maxrregcount option
+ptxas info    : 0 bytes gmem
+ptxas info    : Compiling entry function '_ZN15flash_llm_utils11SpMM_KernelINS_12TilingConfigILi2ELi2ELi4ELi0EEENS_18SparseKernelConfigILi64EEEEEvPK6__halfPK5uint4PKiS7_PS5_iiii' for 'sm_80'
+ptxas info    : Function properties for _ZN15flash_llm_utils11SpMM_KernelINS_12TilingConfigILi2ELi2ELi4ELi0EEENS_18SparseKernelConfigILi64EEEEEvPK6__halfPK5uint4PKiS7_PS5_iiii
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 254 registers, used 1 barriers, 408 bytes cmem[0]
+ptxas info    : Compile time = 113.706 ms
+ptxas info    : Compiling entry function '_ZN15flash_llm_utils11SpMM_KernelINS_12TilingConfigILi2ELi2ELi2ELi0EEENS_18SparseKernelConfigILi64EEEEEvPK6__halfPK5uint4PKiS7_PS5_iiii' for 'sm_80'
+ptxas info    : Function properties for _ZN15flash_llm_utils11SpMM_KernelINS_12TilingConfigILi2ELi2ELi2ELi0EEENS_18SparseKernelConfigILi64EEEEEvPK6__halfPK5uint4PKiS7_PS5_iiii
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 202 registers, used 1 barriers, 408 bytes cmem[0]
+ptxas info    : Compile time = 72.990 ms
+ptxas info    : Compiling entry function '_ZN15flash_llm_utils11SpMM_KernelINS_12TilingConfigILi4ELi1ELi2ELi0EEENS_18SparseKernelConfigILi96EEEEEvPK6__halfPK5uint4PKiS7_PS5_iiii' for 'sm_80'
+ptxas info    : Function properties for _ZN15flash_llm_utils11SpMM_KernelINS_12TilingConfigILi4ELi1ELi2ELi0EEENS_18SparseKernelConfigILi96EEEEEvPK6__halfPK5uint4PKiS7_PS5_iiii
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 231 registers, used 1 barriers, 408 bytes cmem[0]
+ptxas info    : Compile time = 128.867 ms
+ptxas info    : Compiling entry function '_ZN15flash_llm_utils11SpMM_KernelINS_12TilingConfigILi4ELi1ELi1ELi0EEENS_18SparseKernelConfigILi96EEEEEvPK6__halfPK5uint4PKiS7_PS5_iiii' for 'sm_80'
+ptxas info    : Function properties for _ZN15flash_llm_utils11SpMM_KernelINS_12TilingConfigILi4ELi1ELi1ELi0EEENS_18SparseKernelConfigILi96EEEEEvPK6__halfPK5uint4PKiS7_PS5_iiii
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 200 registers, used 1 barriers, 408 bytes cmem[0]
+ptxas info    : Compile time = 112.785 ms
+ptxas info    : Compiling entry function '_ZN15flash_llm_utils11SpMM_KernelINS_12TilingConfigILi4ELi1ELi1ELi1EEENS_18SparseKernelConfigILi96EEEEEvPK6__halfPK5uint4PKiS7_PS5_iiii' for 'sm_80'
+ptxas info    : Function properties for _ZN15flash_llm_utils11SpMM_KernelINS_12TilingConfigILi4ELi1ELi1ELi1EEENS_18SparseKernelConfigILi96EEEEEvPK6__halfPK5uint4PKiS7_PS5_iiii
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 186 registers, used 1 barriers, 408 bytes cmem[0]
+ptxas info    : Compile time = 106.249 ms
+ptxas info    : Compiling entry function '_ZN15flash_llm_utils16SplitK_ReductionEP6__halfS1_iii' for 'sm_80'
+ptxas info    : Function properties for _ZN15flash_llm_utils16SplitK_ReductionEP6__halfS1_iii
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 56 registers, used 0 barriers, 380 bytes cmem[0]
+ptxas info    : Compile time = 8.410 ms
+/usr/local/cuda/bin/nvcc -ccbin g++ -m64 -gencode arch=compute_80,code=sm_80 -gencode arch=compute_86,code=sm_86 -gencode arch=compute_89,code=sm_89 -o spmm_test spmm_test.o -lcublas  -lcusparse  -L/root/pvc/SpInfer_EuroSys25/third_party/sputnik/build/sputnik/ -lsputnik -lglog  -L/root/pvc/SpInfer_EuroSys25/build -lSpMM_API -lcusparseLt
+/usr/local/cuda/bin/nvcc -ccbin g++ -m64 -lineinfo -gencode arch=compute_80,code=sm_80 -gencode arch=compute_86,code=sm_86 -gencode arch=compute_89,code=sm_89 -o spmm_test_spdp spmm_test_spdp.o -lcublas  -lcusparse  -L/root/pvc/SpInfer_EuroSys25/third_party/sputnik/build/sputnik/ -lsputnik -lglog  -L/root/pvc/SpInfer_EuroSys25/build -lSpMM_API -lcusparseLt

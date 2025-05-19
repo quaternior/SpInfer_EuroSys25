@@ -1,5 +1,7 @@
 {
     "files.associations": {
-        "vector": "cpp"
-    }
+        "vector": "cpp",
+        "ostream": "cpp"
+    },
+    "cmake.sourceDirectory": "/root/pvc/SpInfer_EuroSys25/third_party/FasterTransformer"
 }

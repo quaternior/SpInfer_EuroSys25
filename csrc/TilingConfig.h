@@ -105,15 +105,33 @@ struct TilingConfigBitmapV2 {
 
 template<int BLOCK_ROW_WARPS_, int BLOCK_COL_WARPS_, int WARP_COL_TENSORS_, int N8_ = 0>
 struct TilingConfigBitmapV3 {
-    static constexpr int BLOCK_ROW_WARPS  = BLOCK_ROW_WARPS_;
-    static constexpr int BLOCK_COL_WARPS  = BLOCK_COL_WARPS_;
-    static constexpr int WARP_COL_TENSORS = WARP_COL_TENSORS_;
+    static constexpr int BLOCK_ROW_WARPS  = BLOCK_ROW_WARPS_;   //4
+    static constexpr int BLOCK_COL_WARPS  = BLOCK_COL_WARPS_;   //1
+    static constexpr int WARP_COL_TENSORS = WARP_COL_TENSORS_;  //1
 
     // Derived Parameters
-    static constexpr int TILE_M        = MMA_M * (WARP_ROW_TENSORS_BITMAP_V3 * BLOCK_ROW_WARPS);
+    static constexpr int TILE_M        = MMA_M * (WARP_ROW_TENSORS_BITMAP_V3 * BLOCK_ROW_WARPS);    // 16*1*4=64
     static constexpr int TILE_BITMAP_M_V3    = 1; // 16 or 4 or 1
     static constexpr int TILE_BITMAP_K_V3    = 64; // 16 or 4 or 1
-    static constexpr int TILE_N        = MMA_N * (WARP_COL_TENSORS * BLOCK_COL_WARPS);
+    static constexpr int TILE_N        = MMA_N * (WARP_COL_TENSORS * BLOCK_COL_WARPS);  // 16*1*1=16
+    static constexpr int BLOCK_WARPS   = BLOCK_ROW_WARPS * BLOCK_COL_WARPS;
+    static constexpr int BLOCK_THREADS = BLOCK_WARPS * WARP_SIZE;
+    // temporary implementation to support N=8
+    static constexpr int N8      = N8_;
+    static constexpr int TILE_N2 = N8 ? 8 : TILE_N;
+};
+
+template<int BLOCK_ROW_WARPS_, int BLOCK_COL_WARPS_, int WARP_COL_TENSORS_, int N8_ = 0>
+struct TilingConfigBitmapV3_N1 {
+    static constexpr int BLOCK_ROW_WARPS  = BLOCK_ROW_WARPS_;   //4
+    static constexpr int BLOCK_COL_WARPS  = BLOCK_COL_WARPS_;   //1
+    static constexpr int WARP_COL_TENSORS = WARP_COL_TENSORS_;  //1
+
+    // Derived Parameters
+    static constexpr int TILE_M        = MMA_M * (WARP_ROW_TENSORS_BITMAP_V3 * BLOCK_ROW_WARPS);    // 16*1*4=64
+    static constexpr int TILE_BITMAP_M_V3    = 1; // 16 or 4 or 1
+    static constexpr int TILE_BITMAP_K_V3    = 64; // 16 or 4 or 1
+    static constexpr int TILE_N        = 1;  // 16*1*1=16
     static constexpr int BLOCK_WARPS   = BLOCK_ROW_WARPS * BLOCK_COL_WARPS;
     static constexpr int BLOCK_THREADS = BLOCK_WARPS * WARP_SIZE;
     // temporary implementation to support N=8

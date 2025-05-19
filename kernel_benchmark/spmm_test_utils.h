@@ -331,6 +331,44 @@ void SavePerformanceData(const char* filename, int M, int K, int N, int SplitK, 
     fclose(fp);
 }
 
+
+void SavePerformanceData_spdp(const char* filename, int M, int K, int N, int SplitK, int Sparsity, 
+    float duration_cublas_tc, float tflops_cublas_tc,
+    float duration_SpMM_bitmapv3, float tflops_SpMM_bitmapv3) {
+    FILE* fp;
+    // Try to open file to check if it exists
+    fp = fopen(filename, "r");
+    bool fileExists = (fp != NULL);
+    if (fp) fclose(fp);
+
+    // Open file in append mode
+    fp = fopen(filename, "a");
+    if (!fp) {
+        printf("Error opening file for writing!\n");
+        return;
+    }
+
+    // Write header if file is new
+    if (!fileExists) {
+        fprintf(fp, "M,K,N,SplitK,Sparsity,Kernel,Duration(ns),TFLOPS\n");
+    }
+
+    // Convert milliseconds to nanoseconds
+    float duration_cublas_tc_ns = duration_cublas_tc * 1000000;
+    float duration_SpMM_bitmapv3_ns = duration_SpMM_bitmapv3 * 1000000;
+
+    // Write data for each kernel
+    fprintf(fp, "%d,%d,%d,%d,%d,%s,%.1f,%.5f\n", 
+        M, K, N, SplitK, Sparsity, "Spdp", 
+        duration_SpMM_bitmapv3_ns, tflops_SpMM_bitmapv3);
+
+    fprintf(fp, "%d,%d,%d,%d,%d,%s,%.1f,%.5f\n", 
+        M, K, N, SplitK, Sparsity, "cuBLAS_TC", 
+        duration_cublas_tc_ns, tflops_cublas_tc);
+
+    fclose(fp);
+}
+
 void SaveCuSparsePerformanceData(const char* filename, int M, int K, int N, int SplitK, int Sparsity, 
                                 float duration_CuSparse_ColMajor, float tflops_CuSparse_ColMajor) {
     FILE* fp;

@@ -43,6 +43,8 @@ ALL_CCFLAGS +=  --threads 0 --std=c++11
 ALL_CCFLAGS += -maxrregcount=255 
 ALL_CCFLAGS += --use_fast_math
 ALL_CCFLAGS += --ptxas-options=-v,-warn-lmem-usage,--warn-on-spills
+# For debugging in compute-sanitizer
+ALL_CCFLAGS += -lineinfo
 ################################################################################
 
 HEAD_FILES = SpMM_API.cuh \

@@ -16,7 +16,9 @@ template<int SizeInBytes>
 __device__ __forceinline__ void cp_async(half* smem_ptr, const half* global_ptr, bool pred_guard = true)
 {
     static_assert((SizeInBytes == 4 || SizeInBytes == 8 || SizeInBytes == 16), "Size is not supported");
+    // __cvta_generic_to_shared -> convert SMEM addr to PTX
     unsigned smem_int_ptr = __cvta_generic_to_shared(smem_ptr);
+    // volatile : restrict compiler optimization
     asm volatile("{ \n"
                  "  .reg .pred p;\n"
                  "  setp.ne.b32 p, %0, 0;\n"

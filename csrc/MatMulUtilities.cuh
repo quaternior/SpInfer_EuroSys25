@@ -23,38 +23,66 @@
 #include "AsyncCopy_PTX.cuh"
 #include "MMA_PTX.cuh"
 #include "TilingConfig.h"
-// New features: Copy size is X * 64, X can be any multiple to 8
-template<int NumOfRowsToCopy, typename TilingConfig>  // NumOfRowsToCopy must be multiple to COPY_UNIT_FP16_ROWS
+// Copies a tile from global memory to shared memory in units of 64 elements (128 bytes per cp.async).
+// NumOfRowsToCopy must be a multiple of COPY_UNIT_FP16_ROWS (typically 16 rows per unit).
+template<int NumOfRowsToCopy, typename TilingConfig>
 __device__ __forceinline__ void CopyTileFromGlobalToShared_X_64(half* __restrict__ SharedPTR,
                                                                 const half* GlobalPTR,
                                                                 const int   GlobalStride,
                                                                 bool        Pred = true)
 {
-    //
-    int lane_id       = threadIdx.x % 32;
-    int col           = lane_id % 8;
-    int row1          = lane_id / 8;
-    int row2          = lane_id / 8 + 4;
+    // Identify the thread's position within its warp.
+    int lane_id = threadIdx.x % 32;
+
+    // Calculate column index and two row indices used for loading.
+    // Each thread will load two rows in different locations for double buffering.
+    int col = lane_id % 8;
+    int row1 = lane_id / 8;         // First row index
+    int row2 = lane_id / 8 + 4;     // Second row index, offset by 4 rows
+
+    // Permute store column index to reduce shared memory bank conflicts.
     int store_column1 = col ^ row1;
     int store_column2 = col ^ row2;
-    //
-    int       warp_id            = threadIdx.x / 32;
-    int       TotalNumOfCopyUnit = NumOfRowsToCopy / COPY_UNIT_FP16_ROWS;
-    const int MaxIteration =
+
+    // Warp ID within the thread block.
+    int warp_id = threadIdx.x / 32;
+
+    // Total number of copy units to transfer. Each unit copies COPY_UNIT_FP16_ROWS rows (e.g., 2 rows).
+    int TotalNumOfCopyUnit = NumOfRowsToCopy / COPY_UNIT_FP16_ROWS;
+
+    // Compute how many loop iterations are needed based on how many copy units are assigned per warp. (e.g. 1)
+    const int MaxIteration = 
         (TotalNumOfCopyUnit - 1) / (TilingConfig::BLOCK_ROW_WARPS * TilingConfig::BLOCK_COL_WARPS) + 1;
-//
-#pragma unroll
+
+    // Loop over all required copy units in this warp.
+    #pragma unroll
     for (int i = 0; i < MaxIteration; i++) {
-        int  COPY_UNIT_I        = (i * (TilingConfig::BLOCK_ROW_WARPS * TilingConfig::BLOCK_COL_WARPS) + warp_id);
-        bool AsyncCopyPredictor = COPY_UNIT_I < TotalNumOfCopyUnit && Pred;  
-        const half* GlobalPTR_Unit        = GlobalPTR + COPY_UNIT_I * COPY_UNIT_FP16_ROWS * GlobalStride;
+        // Index of the current copy unit assigned to this warp in this iteration.
+        int COPY_UNIT_I = (i * (TilingConfig::BLOCK_ROW_WARPS * TilingConfig::BLOCK_COL_WARPS) + warp_id);
+
+        // Determine whether to perform the async copy in this iteration.
+        bool AsyncCopyPredictor = COPY_UNIT_I < TotalNumOfCopyUnit && Pred;
+
+        // Compute global memory pointer offset for the current copy unit.
+        const half* GlobalPTR_Unit = GlobalPTR + COPY_UNIT_I * COPY_UNIT_FP16_ROWS * GlobalStride;
+
+        // Compute shared memory pointer offset for the current copy unit.
         half* __restrict__ SharedPTR_Unit = SharedPTR + COPY_UNIT_I * COPY_UNIT_FP16_ROWS * TILE_K;
-        cp_async<16>(SharedPTR_Unit + store_column1 * HALF_PER_128B + row1 * TILE_K,
-                     GlobalPTR_Unit + col * HALF_PER_128B + row1 * GlobalStride,
-                     AsyncCopyPredictor);
-        cp_async<16>(SharedPTR_Unit + store_column2 * HALF_PER_128B + row2 * TILE_K,
-                     GlobalPTR_Unit + col * HALF_PER_128B + row2 * GlobalStride,
-                     AsyncCopyPredictor);
+
+        // Perform asynchronous copy of 128-bit (16 bytes = 8 half values) from global to shared memory.
+        // First copy: loads data from row1.
+        cp_async<16>(
+            SharedPTR_Unit + store_column1 * HALF_PER_128B + row1 * TILE_K,
+            GlobalPTR_Unit + col * HALF_PER_128B + row1 * GlobalStride,
+            AsyncCopyPredictor
+        );
+
+        // Second copy: loads data from row2.
+        cp_async<16>(
+            SharedPTR_Unit + store_column2 * HALF_PER_128B + row2 * TILE_K,
+            GlobalPTR_Unit + col * HALF_PER_128B + row2 * GlobalStride,
+            AsyncCopyPredictor
+        );
     }
 }
 // New features: Copy size is X * 64 Uint64, X can be  1 // for BitmapV2
@@ -74,6 +102,7 @@ __device__ __forceinline__ void CopyTileFromGlobalToShared_Bitmap_1_64(uint64_t*
     cp_async<16>(SharedPTR_Unit + lane_id * UINT64_PER_128B, 
                      GlobalPTR_Unit + lane_id * UINT64_PER_128B,   
                      AsyncCopyPredictor);
+    //cp_async<16> => 128B asynchronous copy
 }
 
 
@@ -85,7 +114,7 @@ __device__ __forceinline__ void CopyTileFromGlobalToShared_Sparse(half* __restri
 {
     if(Pred) {
     int threadPerBlock = blockDim.x;
-    int NNZ_8 = (NNZ>>3);
+    int NNZ_8 = (NNZ>>3);   //NNZ/8
     for(int i = threadIdx.x; i < NNZ_8; i+= threadPerBlock) {
         const half* GlobalPTR_Unit        =  GlobalPTR + i * 8;  
         half* __restrict__ SharedPTR_Unit = SharedPTR + i * 8; 
@@ -129,6 +158,7 @@ __device__ __forceinline__ void PipelinedCoreComputationsBitmap(float c[][REG_PE
 }
 __device__ __forceinline__ half2 maskloadingv2(uint64_t bitmap, const half* __restrict__ startpos, int lane_id) {
     int lid_offset = lane_id << 1;
+    //ULL -> Unsigned Long Long bit
     uint64_t bit1 = 1ULL << lid_offset;
     uint64_t bit2 = 2ULL << lid_offset;
 
@@ -364,5 +394,47 @@ StoreToSharedMemoryFromRegisterBitmapV3(float (*smem_CFrag)[TilingConfig::TILE_M
         }
     }
 }
+
+template<int NumOfRowsToCopy, typename TilingConfig>
+__device__ __forceinline__
+void CopyTileFromGlobalToShared_X_64_N1(
+    half* __restrict__ SharedPTR,
+    const half*      GlobalPTR,
+    const int        GlobalStride,
+    bool             Pred = true)
+{
+    // warp 내 lane index
+    int lane_id = threadIdx.x & 31;
+    // 한 warp 당 두 개의 row 복사
+    int row1 = lane_id >> 3;       // lane_id / 8
+    int row2 = row1 + 4;
+    int warp_id = threadIdx.x >> 5; // threadIdx.x / 32
+
+    // 총 copy 단위 수
+    int TotalUnits = NumOfRowsToCopy / COPY_UNIT_FP16_ROWS;
+    // 한 iteration 당 BLOCK_ROW_WARPS warps 가 처리
+    int MaxIter = (TotalUnits + TilingConfig::BLOCK_ROW_WARPS - 1)
+                  / TilingConfig::BLOCK_ROW_WARPS;
+
+#pragma unroll
+    for (int i = 0; i < MaxIter; ++i) {
+        int unit = i * TilingConfig::BLOCK_ROW_WARPS + warp_id;
+        bool doCopy = (unit < TotalUnits) && Pred;
+
+        const half* src = GlobalPTR
+                         + unit * COPY_UNIT_FP16_ROWS * GlobalStride;
+        half*       dst = SharedPTR
+                         + unit * COPY_UNIT_FP16_ROWS * TILE_K;
+
+        // N=1 이므로 col, store_column 계산 없이 바로 row 기반 복사
+        cp_async<16>(dst + row1 * TILE_K,
+                     src + row1 * GlobalStride,
+                     doCopy);
+        cp_async<16>(dst + row2 * TILE_K,
+                     src + row2 * GlobalStride,
+                     doCopy);
+    }
+}
+
 
 #endif

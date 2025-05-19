@@ -96,7 +96,7 @@ def plot_data(data):
 
 
 plot_data(data_4090)
-axs[0].text(-0.2, 1.1, 'RTX 4090', transform=axs[0].transAxes,
+axs[0].text(-0.2, 1.1, 'A100', transform=axs[0].transAxes,
             fontsize=28, fontweight='bold', ha='left', va='top')
 
 handles, labels = axs[0].get_legend_handles_labels()
