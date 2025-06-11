@@ -53,92 +53,92 @@ static void SpMM_SplitK_Kernel_Ex_bitmap_v3(cudaStream_t stream,
         A, Compressed_A, TileOffsets, TileOffsets_Median, bitmap, max_nnz_intile, B, Reduction_Workspace, M_Global, N_Global, K_Global, Split_K);
 }
 
-template<typename TilingConfig>
-static void SpMV_SplitK_Kernel_Ex_bitmap_v3(cudaStream_t stream,
-                                  const half*  A,
-                                  const half* Compressed_A,
-                                  const int*   TileOffsets,
-                                  const int* TileOffsets_Median,z                       
-                                  const uint64_t*   bitmap,
-                                  const int* max_nnz_intile,
-                                  const half*  B,
-                                  half*        Reduction_Workspace,
-                                  const int    M_Global,
-                                  const int    N_Global,
-                                  const int    K_Global,
-                                  int          Split_K)
-{
-    // Maximum size of dynamic SMEM = size between B tile double buffer & C shared memory
-    // ? Dynamic shared memory ? : Can be determined with kernel runtime
-    // 13b: 2304
-    static int SHMEM_SZ = max((TilingConfig::TILE_N * TILE_K) * sizeof(half) * 2 + 2304 * sizeof(half) + (TilingConfig::TILE_BITMAP_M_V3 * TilingConfig::TILE_BITMAP_K_V3) * sizeof(uint64_t),
-                              (TilingConfig::TILE_M + PADDING_SHARED_MEM_FOR_C) * TilingConfig::TILE_N * sizeof(float));
-    // ### cudaFuncSetAttribute : change attribute
-    // To change dynamic shared memory with 48KB over generally.
-    // Inside : changes the runtime metadata of the kernel
-    cudaFuncSetAttribute(
-        SpMV_Kernel_bitmap_v3<TilingConfig>, cudaFuncAttributeMaxDynamicSharedMemorySize, SHMEM_SZ);
-    int dimN =
-        max(N_Global / TilingConfig::TILE_N, 1);  // max(N_Global/TilingConfig::TILE_N,1) used when N=8, TILE_N=16
-    int  dimM = M_Global * Split_K / TilingConfig::TILE_M;
-    dim3 GridDim(dimN, dimM, 1);  // Grid Size is increased due to SplitK for higher SM occupancy
-    dim3 BlockDim(WARP_SIZE * TilingConfig::BLOCK_WARPS, 1, 1);
-    SpMV_Kernel_bitmap_v3<TilingConfig><<<GridDim, BlockDim, SHMEM_SZ, stream>>>(
-        A, Compressed_A, TileOffsets, TileOffsets_Median, bitmap, max_nnz_intile, B, Reduction_Workspace, M_Global, N_Global, K_Global, Split_K);
-}
+// template<typename TilingConfig>
+// static void SpMV_SplitK_Kernel_Ex_bitmap_v3(cudaStream_t stream,
+//                                   const half*  A,
+//                                   const half* Compressed_A,
+//                                   const int*   TileOffsets,
+//                                   const int* TileOffsets_Median,z                       
+//                                   const uint64_t*   bitmap,
+//                                   const int* max_nnz_intile,
+//                                   const half*  B,
+//                                   half*        Reduction_Workspace,
+//                                   const int    M_Global,
+//                                   const int    N_Global,
+//                                   const int    K_Global,
+//                                   int          Split_K)
+// {
+//     // Maximum size of dynamic SMEM = size between B tile double buffer & C shared memory
+//     // ? Dynamic shared memory ? : Can be determined with kernel runtime
+//     // 13b: 2304
+//     static int SHMEM_SZ = max((TilingConfig::TILE_N * TILE_K) * sizeof(half) * 2 + 2304 * sizeof(half) + (TilingConfig::TILE_BITMAP_M_V3 * TilingConfig::TILE_BITMAP_K_V3) * sizeof(uint64_t),
+//                               (TilingConfig::TILE_M + PADDING_SHARED_MEM_FOR_C) * TilingConfig::TILE_N * sizeof(float));
+//     // ### cudaFuncSetAttribute : change attribute
+//     // To change dynamic shared memory with 48KB over generally.
+//     // Inside : changes the runtime metadata of the kernel
+//     cudaFuncSetAttribute(
+//         SpMV_Kernel_bitmap_v3<TilingConfig>, cudaFuncAttributeMaxDynamicSharedMemorySize, SHMEM_SZ);
+//     int dimN =
+//         max(N_Global / TilingConfig::TILE_N, 1);  // max(N_Global/TilingConfig::TILE_N,1) used when N=8, TILE_N=16
+//     int  dimM = M_Global * Split_K / TilingConfig::TILE_M;
+//     dim3 GridDim(dimN, dimM, 1);  // Grid Size is increased due to SplitK for higher SM occupancy
+//     dim3 BlockDim(WARP_SIZE * TilingConfig::BLOCK_WARPS, 1, 1);
+//     SpMV_Kernel_bitmap_v3<TilingConfig><<<GridDim, BlockDim, SHMEM_SZ, stream>>>(
+//         A, Compressed_A, TileOffsets, TileOffsets_Median, bitmap, max_nnz_intile, B, Reduction_Workspace, M_Global, N_Global, K_Global, Split_K);
+// }
 
 
-cudaError_t SpMV_SplitK_API_bitmap_v3(cudaStream_t stream,
-                            const half*  A,
-                            const half*  Compressed_A,
-                            const int*   TileOffsets,
-                            const int* TileOffsets_Median,
-                            const uint64_t* bitmap,
-                            const int* max_nnz_intile,
-                            const half*  B,
-                            half*        C,
-                            const int    M_Global,
-                            const int    N_Global,
-                            const int    K_Global,
-                            half*        Reduction_Workspace,  // Identical workspace for all SpMM kernel launchesSpMM_SplitK_Kernel_Ex_bitmap
-                            int          Split_K)
-{
-    // ### cudaStream_t : To control Asynchronous task execution(especially for cudaMemcpyAsync)
-    half* SpMM_SplitK_OutputPTR;
-    if (Split_K == 1)
-        SpMM_SplitK_OutputPTR = C;
-    else
-        SpMM_SplitK_OutputPTR = Reduction_Workspace;
-    // Batched SpMM
-    switch (N_Global) {
-        case 1:
-            // ### template<int BLOCK_ROW_WARPS_, int BLOCK_COL_WARPS_, int WARP_COL_TENSORS_, int N8_ = 0>
-            // struct TilingConfigBitmapV3
-            // - BLOCK_ROW_WARPS_ : Number of warps to handle TILE_M
-            // - BLOCK_COL_WARPS_ : Number of warps to handle TILE_N(always 1)
-            // - WARP_COL_TENSORS_ : ???
-            // - N8_ : only for N_Global=8
-            SpMV_SplitK_Kernel_Ex_bitmap_v3<TilingConfigBitmapV3_N1<4, 1, 1, 1>>(
-                stream, A, Compressed_A, TileOffsets, TileOffsets_Median, bitmap, max_nnz_intile, B, SpMM_SplitK_OutputPTR, M_Global, N_Global, K_Global, Split_K);
-            break;
-        default:
-            printf("MV_Sparse_API Error: Only vector supported %d!\n", N_Global);
-            return cudaErrorUnknown;
-    }
+// cudaError_t SpMV_SplitK_API_bitmap_v3(cudaStream_t stream,
+//                             const half*  A,
+//                             const half*  Compressed_A,
+//                             const int*   TileOffsets,
+//                             const int* TileOffsets_Median,
+//                             const uint64_t* bitmap,
+//                             const int* max_nnz_intile,
+//                             const half*  B,
+//                             half*        C,
+//                             const int    M_Global,
+//                             const int    N_Global,
+//                             const int    K_Global,
+//                             half*        Reduction_Workspace,  // Identical workspace for all SpMM kernel launchesSpMM_SplitK_Kernel_Ex_bitmap
+//                             int          Split_K)
+// {
+//     // ### cudaStream_t : To control Asynchronous task execution(especially for cudaMemcpyAsync)
+//     half* SpMM_SplitK_OutputPTR;
+//     if (Split_K == 1)
+//         SpMM_SplitK_OutputPTR = C;
+//     else
+//         SpMM_SplitK_OutputPTR = Reduction_Workspace;
+//     // Batched SpMM
+//     switch (N_Global) {
+//         case 1:
+//             // ### template<int BLOCK_ROW_WARPS_, int BLOCK_COL_WARPS_, int WARP_COL_TENSORS_, int N8_ = 0>
+//             // struct TilingConfigBitmapV3
+//             // - BLOCK_ROW_WARPS_ : Number of warps to handle TILE_M
+//             // - BLOCK_COL_WARPS_ : Number of warps to handle TILE_N(always 1)
+//             // - WARP_COL_TENSORS_ : ???
+//             // - N8_ : only for N_Global=8
+//             SpMV_SplitK_Kernel_Ex_bitmap_v3<TilingConfigBitmapV3_N1<4, 1, 1, 1>>(
+//                 stream, A, Compressed_A, TileOffsets, TileOffsets_Median, bitmap, max_nnz_intile, B, SpMM_SplitK_OutputPTR, M_Global, N_Global, K_Global, Split_K);
+//             break;
+//         default:
+//             printf("MV_Sparse_API Error: Only vector supported %d!\n", N_Global);
+//             return cudaErrorUnknown;
+//     }
     
-    //
-    cudaError_t Error = cudaGetLastError();
-    if (Error != cudaSuccess)
-        return Error;
+//     //
+//     cudaError_t Error = cudaGetLastError();
+//     if (Error != cudaSuccess)
+//         return Error;
 
-    if (Split_K == 1)
-        return Error;
+//     if (Split_K == 1)
+//         return Error;
     
-    dim3 GridDim((M_Global * N_Global) / 256, 1, 1);
-    dim3 BlockDim(WARP_SIZE, 1, 1);
-    SplitK_Reduction<<<GridDim, BlockDim, 0, stream>>>(C, Reduction_Workspace, M_Global, N_Global, Split_K);
-    return cudaGetLastError();
-}
+//     dim3 GridDim((M_Global * N_Global) / 256, 1, 1);
+//     dim3 BlockDim(WARP_SIZE, 1, 1);
+//     SplitK_Reduction<<<GridDim, BlockDim, 0, stream>>>(C, Reduction_Workspace, M_Global, N_Global, Split_K);
+//     return cudaGetLastError();
+// }
 
 
 cudaError_t SpMM_SplitK_API_bitmap_v3(cudaStream_t stream,
