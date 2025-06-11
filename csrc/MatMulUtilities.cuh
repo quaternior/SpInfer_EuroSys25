@@ -395,49 +395,49 @@ StoreToSharedMemoryFromRegisterBitmapV3(float (*smem_CFrag)[TilingConfig::TILE_M
     }
 }
 
-// Copies a tile from global memory to shared memory in units of 64 elements (128 bytes per cp.async).
-// NumOfRowsToCopy must be a multiple of COPY_UNIT_FP16_ROWS (typically 16 rows per unit).
-template<int NumOfRowsToCopy, typename TilingConfig>
-__device__ __forceinline__ void CopyTileFromGlobalToShared_X_64_N1(half* __restrict__ SharedPTR,
-                                                                const half* GlobalPTR,
-                                                                const int   GlobalStride,
-                                                                bool        Pred = true)
-{
-    // Identify the thread's position within its warp.
-    int lane_id = threadIdx.x % 32;
+// // Copies a tile from global memory to shared memory in units of 64 elements (128 bytes per cp.async).
+// // NumOfRowsToCopy must be a multiple of COPY_UNIT_FP16_ROWS (typically 16 rows per unit).
+// template<int NumOfRowsToCopy, typename TilingConfig>
+// __device__ __forceinline__ void CopyTileFromGlobalToShared_X_64_N1(half* __restrict__ SharedPTR,
+//                                                                 const half* GlobalPTR,
+//                                                                 const int   GlobalStride,
+//                                                                 bool        Pred = true)
+// {
+//     // Identify the thread's position within its warp.
+//     int lane_id = threadIdx.x % 32;
 
-    // Calculate column index and two row indices used for loading.
-    // Each thread will load two rows in different locations for double buffering.
-    int col = lane_id % 8;
-    int row1 = lane_id / 8;         // First row index
-    int row2 = lane_id / 8 + 4;     // Second row index, offset by 4 rows
+//     // Calculate column index and two row indices used for loading.
+//     // Each thread will load two rows in different locations for double buffering.
+//     int col = lane_id % 8;
+//     int row1 = lane_id / 8;         // First row index
+//     int row2 = lane_id / 8 + 4;     // Second row index, offset by 4 rows
 
-    // Permute store column index to reduce shared memory bank conflicts.
-    int store_column1 = col ^ row1;
-    int store_column2 = col ^ row2;
+//     // Permute store column index to reduce shared memory bank conflicts.
+//     int store_column1 = col ^ row1;
+//     int store_column2 = col ^ row2;
 
-    // Warp ID within the thread block.
-    int warp_id = threadIdx.x / 32;
+//     // Warp ID within the thread block.
+//     int warp_id = threadIdx.x / 32;
 
-    int i=0;
+//     int i=0;
 
 
-    // Index of the current copy unit assigned to this warp in this iteration.
-    int COPY_UNIT_I = (i * (TilingConfig::BLOCK_ROW_WARPS * TilingConfig::BLOCK_COL_WARPS) + warp_id);
+//     // Index of the current copy unit assigned to this warp in this iteration.
+//     int COPY_UNIT_I = (i * (TilingConfig::BLOCK_ROW_WARPS * TilingConfig::BLOCK_COL_WARPS) + warp_id);
 
-    // Determine whether to perform the async copy in this iteration.
-    bool AsyncCopyPredictor = COPY_UNIT_I < TotalNumOfCopyUnit && Pred;
+//     // Determine whether to perform the async copy in this iteration.
+//     bool AsyncCopyPredictor = COPY_UNIT_I < TotalNumOfCopyUnit && Pred;
 
-    // Compute global memory pointer offset for the current copy unit.
-    const half* GlobalPTR_Unit = GlobalPTR + COPY_UNIT_I * COPY_UNIT_FP16_ROWS * GlobalStride;
+//     // Compute global memory pointer offset for the current copy unit.
+//     const half* GlobalPTR_Unit = GlobalPTR + COPY_UNIT_I * COPY_UNIT_FP16_ROWS * GlobalStride;
 
-    // Compute shared memory pointer offset for the current copy unit.
-    half* __restrict__ SharedPTR_Unit = SharedPTR + COPY_UNIT_I * COPY_UNIT_FP16_ROWS * TILE_K;
-    if(AsyncCopyOredictor){
-        SharedPTR[store_column1 * HALF_PER_128B + row1] = GlobalPTR_Unit[col * HALF_PER_128B + row1 * GlobalStride]
-        SharedPTR[store_column2 * HALF_PER_128B + row2] = GlobalPTR_Unit[col * HALF_PER_128B + row2 * GlobalStride]
-    }
-}
+//     // Compute shared memory pointer offset for the current copy unit.
+//     half* __restrict__ SharedPTR_Unit = SharedPTR + COPY_UNIT_I * COPY_UNIT_FP16_ROWS * TILE_K;
+//     if(AsyncCopyOredictor){
+//         SharedPTR[store_column1 * HALF_PER_128B + row1] = GlobalPTR_Unit[col * HALF_PER_128B + row1 * GlobalStride]
+//         SharedPTR[store_column2 * HALF_PER_128B + row2] = GlobalPTR_Unit[col * HALF_PER_128B + row2 * GlobalStride]
+//     }
+// }
 
 
 #endif

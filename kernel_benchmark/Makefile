@@ -61,13 +61,13 @@ ALL_CCFLAGS += --ptxas-options=-v,-warn-lmem-usage,--warn-on-spills
 ALL_CCFLAGS += -lineinfo
 ################################################################################
 # Target rules
-all: spmm_test_spdp spmm_test spmm_test_sparta spmm_test_sputnik spmm_test_cusparse
+all: spmm_test spmm_test_sparta spmm_test_sputnik spmm_test_cusparse
 
-spmm_test_spdp.o:  spmm_test_spdp.cu spmm_test_utils.h sparTA.h
-	$(EXEC) $(NVCC) $(INCLUDES) $(ALL_CCFLAGS) $(GENCODE_FLAGS) -o $@ -c $<
+# spmm_test_spdp.o:  spmm_test_spdp.cu spmm_test_utils.h sparTA.h
+# 	$(EXEC) $(NVCC) $(INCLUDES) $(ALL_CCFLAGS) $(GENCODE_FLAGS) -o $@ -c $<
 
-spmm_test_spdp: spmm_test_spdp.o
-	$(EXEC) $(NVCC) $(ALL_LDFLAGS) $(GENCODE_FLAGS) -o $@ $+ $(LIBRARIES)
+# spmm_test_spdp: spmm_test_spdp.o
+# 	$(EXEC) $(NVCC) $(ALL_LDFLAGS) $(GENCODE_FLAGS) -o $@ $+ $(LIBRARIES)
 
 spmm_test.o:  spmm_test.cu spmm_test_utils.h sparTA.h
 	$(EXEC) $(NVCC) $(INCLUDES) $(ALL_CCFLAGS) $(GENCODE_FLAGS) -o $@ -c $<
