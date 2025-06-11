@@ -210,9 +210,40 @@ int main(int argc, char** argv)
     }
     cudaMemcpy(D_cublas_h, D_cublas, sizeof(half) * M_GLOBAL * N_GLOBAL, cudaMemcpyDeviceToHost);  // Col Major
     cudaFree(D_cublas);
+    cudaFree(B);
+    cudaFree(B_Transposed);
+    free(B);
+    free(B_h);
 /////////////////////////////////////////////////////////////////////////////////////////////////
 
     auto Split_K = SPLIT_K;
+    int PADDING_N = (N_GLOBAL < 8) ? 8 : N_GLOBAL;
+    B_h            = (half*)malloc(sizeof(half) * K_GLOBAL * PADDING_N);
+    B_Transposed_h = (half*)malloc(sizeof(half) * K_GLOBAL * PADDING_N);
+    if (A_h == NULL || B_h == NULL || B_Transposed_h == NULL) {
+        printf("Error in CPU Malloc in zero padding phase!\n");
+        exit(-1);
+    }
+
+    cudaMalloc(reinterpret_cast<void**>(&B), sizeof(half) * PADDING_N * K_GLOBAL);
+    cudaMalloc(reinterpret_cast<void**>(&B_Transposed), sizeof(half) * PADDING_N * K_GLOBAL);
+    checkLastCudaError(__LINE__);
+    if (B == NULL || B_Transposed == NULL) {
+        printf("Error in cudaMalloc in zero padding phase!\n");
+        exit(-1);
+    }
+    //
+    init_host_matrices_zp(A_h, B_h, M_GLOBAL, K_GLOBAL, N_GLOBAL, MATRIX_A_PRUNING_PERCENTAGE);
+
+    N_GLOBAL = PADDING_N;
+    for (int i = 0; i < K_GLOBAL; i++)
+        for (int j = 0; j < N_GLOBAL; j++)
+            B_Transposed_h[i * N_GLOBAL + j] = B_h[i + j * K_GLOBAL];
+    //
+    printf("Preparing dense data for GPU...\n");
+    cudaMemcpy(B, B_h, sizeof(half) * N_GLOBAL * K_GLOBAL, cudaMemcpyHostToDevice);
+    cudaMemcpy(B_Transposed, B_Transposed_h, sizeof(half) * N_GLOBAL * K_GLOBAL, cudaMemcpyHostToDevice);
+    checkLastCudaError(__LINE__);
 // Flash-llm
 ////////////////////////////////////////////////////////////////////////////////////////////////
     uint32_t* NZWeights_CPU   = NULL;
@@ -465,10 +496,11 @@ int main(int argc, char** argv)
     cudaFree(A);
     cudaFree(B);
     cudaFree(B_Transposed);
-    SavePerformanceData("main_res.csv",
+    SavePerformanceData_v2("main_res.csv",
         M_GLOBAL, K_GLOBAL, N_GLOBAL, 
         SPLIT_K, MATRIX_A_PRUNING_PERCENTAGE,
         milliseconds_cublas_tc, tflops_cublas_tc,
+        milliseconds_cublas, tflops_cublas,
         milliseconds_SpMM2, tflops_SpMM2,
         milliseconds_SpMM_bitmapv3, tflops_SpMM_bitmapv3);
     return 0;

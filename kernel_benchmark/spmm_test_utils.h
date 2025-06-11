@@ -101,6 +101,31 @@ init_host_matrices(half* a, half* b, int M_GLOBAL, int K_GLOBAL, int N_GLOBAL, i
         b[i] = __float2half_rn(static_cast<float>((rand() % 5)) / 5 - 0.5f);
 }
 
+__host__ void
+init_host_matrices_zp(half* a, half* b, int M_GLOBAL, int K_GLOBAL, int N_GLOBAL, int MATRIX_A_PRUNING_PERCENTAGE)
+{
+    for (int i = 0; i < M_GLOBAL; i++) {
+        for (int j = 0; j < K_GLOBAL; j++) {
+            int r = rand() % 100;
+            if (r >= MATRIX_A_PRUNING_PERCENTAGE)
+                a[j + i * K_GLOBAL] = __float2half_rn(static_cast<float>((rand() % 5)) / 5 - 0.5f);
+            else
+                a[j + i * K_GLOBAL] = __float2half_rn(0.0f);
+        }
+    }
+    int padded_N = (N_GLOBAL < 8) ? 8 : N_GLOBAL;
+
+    for (int i = 0; i < K_GLOBAL; i++) {
+        for (int j = 0; j < padded_N; j++) {
+            if (j < N_GLOBAL) {
+                b[j + i * padded_N] = __float2half_rn(static_cast<float>((rand() % 5)) / 5 - 0.5f);
+            } else {
+                b[j + i * padded_N] = __float2half_rn(0.0f);
+            }
+        }
+    }
+}
+
 double ComputeTotalError(half* CuBlas, half* Other, int m, int n)
 {
     double totalError = 0.0;
@@ -331,6 +356,55 @@ void SavePerformanceData(const char* filename, int M, int K, int N, int SplitK, 
     fclose(fp);
 }
 
+
+void SavePerformanceData_v2(const char* filename, int M, int K, int N, int SplitK, int Sparsity, 
+                        float duration_cublas_tc, float tflops_cublas_tc,
+                        float duration_cublas, float tflops_cublas,
+                        float duration_SpMM2, float tflops_SpMM2,
+                        float duration_SpMM_bitmapv3, float tflops_SpMM_bitmapv3) {
+    FILE* fp;
+    // Try to open file to check if it exists
+    fp = fopen(filename, "r");
+    bool fileExists = (fp != NULL);
+    if (fp) fclose(fp);
+    
+    // Open file in append mode
+    fp = fopen(filename, "a");
+    if (!fp) {
+        printf("Error opening file for writing!\n");
+        return;
+    }
+
+    // Write header if file is new
+    if (!fileExists) {
+        fprintf(fp, "M,K,N,SplitK,Sparsity,Kernel,Duration(ns),TFLOPS\n");
+    }
+
+    // Convert milliseconds to nanoseconds
+    float duration_cublas_tc_ns = duration_cublas_tc * 1000000;
+    float duration_cublas_ns = duration_cublas * 1000000;
+    float duration_SpMM2_ns = duration_SpMM2 * 1000000;
+    float duration_SpMM_bitmapv3_ns = duration_SpMM_bitmapv3 * 1000000;
+
+    // Write data for each kernel
+    fprintf(fp, "%d,%d,%d,%d,%d,%s,%.1f,%.5f\n", 
+            M, K, N, SplitK, Sparsity, "SpInfer", 
+            duration_SpMM_bitmapv3_ns, tflops_SpMM_bitmapv3);
+    
+    fprintf(fp, "%d,%d,%d,%d,%d,%s,%.1f,%.5f\n", 
+            M, K, N, SplitK, Sparsity, "cuBLAS_TC", 
+            duration_cublas_tc_ns, tflops_cublas_tc);
+    
+    fprintf(fp, "%d,%d,%d,%d,%d,%s,%.1f,%.5f\n", 
+            M, K, N, SplitK, Sparsity, "cuBLAS", 
+            duration_cublas_ns, tflops_cublas);
+    
+    fprintf(fp, "%d,%d,%d,%d,%d,%s,%.1f,%.5f\n", 
+            M, K, N, SplitK, Sparsity, "Flash-LLM", 
+            duration_SpMM2_ns, tflops_SpMM2);
+
+    fclose(fp);
+}
 
 void SavePerformanceData_spdp(const char* filename, int M, int K, int N, int SplitK, int Sparsity, 
     float duration_cublas_tc, float tflops_cublas_tc,
